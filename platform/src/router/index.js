@@ -17,7 +17,7 @@ export default new Router({
     ...demoRoutes,
     {
       path: '*',
-      redirect: { name: 'dashboard' },
+      redirect: { name: 'login' },
     },
     {
       path: '/auth',
@@ -80,6 +80,9 @@ export default new Router({
           path: 'dashboard',
           component: () => import('../components/dashboard/Dashboard.vue'),
           default: true,
+          meta: {
+            requireAuth: true,  // 添加该字段，表示进入这个路由是需要登录的
+          },
         },
         // {
         //   name: 'statistics',

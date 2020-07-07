@@ -1,6 +1,30 @@
 <template>
   <form @submit.prevent="onsubmit()">
     <va-input
+      v-model="username"
+      type="text"
+      label="Username"
+      :error="is_usr_empty"
+      error-messages="Please enter your username!"
+    />
+
+    <va-input
+      v-model="realname"
+      type="text"
+      label="Realname"
+      :error="is_realname_empty"
+      error-messages="Please enter your real name!"
+    />
+
+    <va-input
+      v-model="phone_num"
+      type="text"
+      label="Phone number"
+      :error="is_phonenum_empty"
+      error-messages="Please enter your phone number!"
+    />
+
+    <va-input
       v-model="email"
       type="email"
       :label="$t('auth.email')"
@@ -14,6 +38,13 @@
       :label="$t('auth.password')"
       :error="!!passwordErrors.length"
       :error-messages="passwordErrors"
+    />
+
+    <va-select
+      label="Select your role"
+      v-model="SelectModel"
+      textBy="description"
+      :options="simpleOptions"
     />
 
     <div class="auth-layout__options d-flex align--center justify--space-between">
@@ -44,12 +75,29 @@ export default {
   name: 'signup',
   data () {
     return {
+      username: '',
+      realname: '',
+      phone_num: '',
       email: '',
       password: '',
       agreedToTerms: false,
       emailErrors: [],
       passwordErrors: [],
       agreedToTermsErrors: [],
+      is_usr_empty: false,
+      is_realname_empty: false,
+      is_phonenum_empty: false,
+      SelectModel: '',
+      simpleOptions: [
+        {
+          id: 1,
+          description: 'mvo',
+        },
+        {
+          id: 2,
+          description: 'bvo',
+        },
+      ],
     }
   },
   methods: {
