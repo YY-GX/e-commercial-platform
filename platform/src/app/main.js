@@ -16,10 +16,16 @@ import VueClipboard from 'vue-clipboard2'
 import '../metrics'
 import '../registerServiceWorker'
 
+import axios from 'axios'
+// import VueAxios from 'vue-axios'
+
 import { consoleBuildInfo } from 'vue-cli-plugin-build-info/plugin'
 
 consoleBuildInfo()
 
+Vue.prototype.$http= axios
+
+// Vue.use(VueAxios,axios);
 Vue.use(VuesticPlugin)
 Vue.use(YmapPlugin)
 Vue.use(VueClipboard)

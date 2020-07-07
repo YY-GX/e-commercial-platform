@@ -1,57 +1,40 @@
 <template>
   <div class="dashboard">
-<!--    <dashboard-charts />-->
-<!--    <dashboard-info-block />-->
-<!--    <div class="row">-->
-<!--      <div class="flex xs12">-->
-<!--        <dashboard-table />-->
-<!--      </div>-->
-<!--    </div>-->
-<!--    <div class="row row-equal">-->
-<!--      <div class="flex xs12 lg6">-->
-<!--        <dashboard-tabs @submit="addAddressToMap"/>-->
-<!--      </div>-->
-<!--      <div class="flex xs12 lg6">-->
-<!--        <dashboard-map ref="dashboardMap"/>-->
-<!--      </div>-->
-<!--    </div>-->
+    <product-item
+      :img_url="img_url"
+      :img_title="img_title"
+      :img_intro="img_intro"
+      product_id=1
+      usr_id=1
+      v-on:delete_product="delete_product"
+      class="product"/>
   </div>
 </template>
 
 <script>
-// import DashboardCharts from './DashboardCharts'
-// import DashboardInfoBlock from './DashboardInfoBlock'
-// import DashboardTable from './DashboardTable'
-// import DashboardTabs from './DashboardTabs'
-// import DashboardMap from './DashboardMap'
-
+import ProductItem from "../product/productItem";
 export default {
   name: 'dashboard',
+  data() {
+    return {
+      img_url: "https://picsum.photos/300/200/?image=1043",
+      img_title: 'CARD WITH TITLE ON IMAGE',
+      img_intro: 'The unique stripes of zebras make them one of the animals most familiar to people.'
+    }
+  },
   components: {
-    // DashboardCharts,
-    // DashboardInfoBlock,
-    // DashboardTable,
-    // DashboardTabs,
-    // DashboardMap,
+    ProductItem
   },
   methods: {
-    // addAddressToMap ({ city, country }) {
-    //   this.$refs.dashboardMap.addAddress({ city: city.text, country })
-    // },
+    delete_product(val) {
+      console.log(val)
+    }
   },
 }
 </script>
 
 <style lang="scss">
-  .row-equal .flex {
-    .va-card {
-      height: 100%;
-    }
-  }
-
-  .dashboard {
-    .va-card {
-      margin-bottom: 0 !important;
-    }
+  .product {
+    width: 25%;
   }
 </style>
