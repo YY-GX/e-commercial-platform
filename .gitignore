@@ -7,10 +7,13 @@
 # BlueJ files
 *.ctxt
 
+<<<<<<< HEAD
 node_modules/
 dist/
 
 
+=======
+>>>>>>> 8cc8a42106e6af1a35806c4158d6e3422dabf6b7
 # Mobile Tools for Java (J2ME)
 .mtj.tmp/
 
@@ -25,4 +28,7 @@ dist/
 
 # virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
 hs_err_pid*
+<<<<<<< HEAD
 
+=======
+>>>>>>> 8cc8a42106e6af1a35806c4158d6e3422dabf6b7
