@@ -33,6 +33,8 @@
 
 <script>
     import ProductDetail from "../productDetail/productDetail";
+    import {addWaitlist, getProductDetail} from '../../api/api.js'
+
     export default {
       name: "product-item",
       components: {ProductDetail},
@@ -75,13 +77,9 @@
             );
 
             // Tell back to add it to waillist
-            this.$http({
-              method: "post",
-              url: '/bvo/wishlist/add',
-              data: {
-                dsrId: this.usr_id,
-                proId: this.product_id
-              }
+            addWaitlist(this, {
+              dsrId: this.usr_id,
+              proId: this.product_id
             }).then((result)=>{
               console.log(result)
             })
@@ -92,16 +90,6 @@
         },
 
         see_detail() {
-          this.$http({
-            method: "get",
-            url: "/mvo/product/detail/get",
-            data() {
-              proId: this.product_id
-            }
-          }).then((result)=>{
-            console.log(result);
-            this.product_detail = result.data;
-          });
 
           this.product_detail = {
             'pro_id': this.product_id,
@@ -121,6 +109,13 @@
           } // delete in the future
           console.log(this.product_detail)
           this.showModal = true;
+
+          getProductDetail(this, {
+            proId: this.product_id
+          }).then((result)=>{
+            console.log(result);
+            this.product_detail = result.data;
+          });
         },
 
         close(par) {

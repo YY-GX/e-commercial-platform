@@ -50,6 +50,7 @@
 </template>
 
 <script>
+  import {buyProduct} from '../../api/api.js'
     export default {
       name: "product-detail",
       props: {
@@ -83,15 +84,11 @@
           if (!(this.num_pro % 1 === 0) || this.num_pro === null) {
             this.is_number = false
           } else {
-            console.log(123)
-            this.$http({
-              method: "post",
-              url: "/bvo/product/buy",
-              data: {
-                dsrId: this.usr_id,
-                proId: this.pro_id,
-                productAmount: this.num_pro
-              }
+            console.log(123);
+            buyProduct(this, {
+              dsrId: this.usr_id,
+              proId: this.pro_id,
+              productAmount: this.num_pro
             }).then((result)=>{
               console.log(result);
             });

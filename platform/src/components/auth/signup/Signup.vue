@@ -4,24 +4,24 @@
       v-model="username"
       type="text"
       label="Username"
-      :error="is_usr_empty"
-      error-messages="Please enter your username!"
+      :error="!!usrErrors.length"
+      :error-messages="usrErrors"
     />
 
     <va-input
       v-model="realname"
       type="text"
       label="Realname"
-      :error="is_realname_empty"
-      error-messages="Please enter your real name!"
+      :error="!!realnameErrors.length"
+      :error-messages="realnameErrors"
     />
 
     <va-input
       v-model="phone_num"
       type="text"
       label="Phone number"
-      :error="is_phonenum_empty"
-      error-messages="Please enter your phone number!"
+      :error="!!phonenumErrors.length"
+      :error-messages="phonenumErrors"
     />
 
     <va-input
@@ -45,6 +45,7 @@
       v-model="SelectModel"
       textBy="description"
       :options="simpleOptions"
+      clearable="false"
     />
 
     <div class="auth-layout__options d-flex align--center justify--space-between">
@@ -84,10 +85,10 @@ export default {
       emailErrors: [],
       passwordErrors: [],
       agreedToTermsErrors: [],
-      is_usr_empty: false,
-      is_realname_empty: false,
-      is_phonenum_empty: false,
-      SelectModel: '',
+      usrErrors: [],
+      realnameErrors: [],
+      phonenumErrors: [],
+      SelectModel: 'mvo',
       simpleOptions: [
         {
           id: 1,
@@ -104,6 +105,9 @@ export default {
     onsubmit () {
       this.emailErrors = this.email ? [] : ['Email is required']
       this.passwordErrors = this.password ? [] : ['Password is required']
+      this.usrErrors = this.username ? [] : ['Username is required']
+      this.phonenumErrors = this.phone_num ? [] : ['Phone number is required']
+      this.realnameErrors = this.realname ? [] : ['Realname is required']
       this.agreedToTermsErrors = this.agreedToTerms ? [] : ['You must agree to the terms of use to continue']
       if (!this.formReady) {
         return

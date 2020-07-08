@@ -1,11 +1,11 @@
 <template>
   <form @submit.prevent="onsubmit">
     <va-input
-      v-model="email"
-      type="email"
-      :label="$t('auth.email')"
-      :error="!!emailErrors.length"
-      :error-messages="emailErrors"
+      v-model="username"
+      type="text"
+      label="username"
+      :error="!!usrErrors.length"
+      :error-messages="usrErrors"
     />
 
     <va-input
@@ -28,29 +28,49 @@
 </template>
 
 <script>
+  import {login} from "../../../api/api.js"
+
 export default {
   name: 'login',
   data () {
     return {
-      email: '',
+      username: '',
       password: '',
       keepLoggedIn: false,
-      emailErrors: [],
+      usrErrors: [],
       passwordErrors: [],
     }
   },
   computed: {
     formReady () {
-      return !this.emailErrors.length && !this.passwordErrors.length
+      return !this.usrErrors.length && !this.passwordErrors.length
     },
   },
   methods: {
     onsubmit () {
-      this.emailErrors = this.email ? [] : ['Email is required']
+      this.usrErrors = this.username ? [] : ['Username is required']
       this.passwordErrors = this.password ? [] : ['Password is required']
       if (!this.formReady) {
         return
       }
+
+      this.postData = {
+        username: this.username,
+        password: this.password,
+      };
+
+      // login(this, postData)
+      //   .then(res => {
+      //     console.log(res)
+      //     if (res.status == 200) {
+      //       // window.localStorage["token"] = JSON.stringify(res.data.data.token);
+      //     } else {
+      //
+      //     }
+      // });
+
+      window.localStorage["token"] = 'ThisIsAToken'; // Delete in future
+
       this.$router.push({ name: 'dashboard' })
     },
   },
