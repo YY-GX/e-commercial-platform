@@ -42,8 +42,11 @@
             />
 
             <div class="row">
-              <div class="flex xs12 md5 offset--md7">
-                <va-button @click="addOrder" > Buy me! </va-button>
+              <div class="flex lg5 offset--md2">
+                <va-button @click="cancel" small flat color="gray" class="flex lg7 offset--lg5"> Cancel </va-button>
+              </div>
+              <div class="flex lg4">
+                <va-button small @click="addOrder" > Buy me! </va-button>
               </div>
             </div>
 
@@ -104,15 +107,6 @@
             this.is_number = false
           } else {
             console.log(123);
-            buyProduct(this, {
-              dsrId: this.usr_id,
-              proId: this.pro_id,
-              productAmount: this.num_pro
-            }).then((result)=>{
-              console.log(result);
-            });
-
-
             this.showToast(
               "You have ordered this product! \n You can see it in the order management page.",
               {
@@ -123,9 +117,21 @@
                 fullWidth: false,
               },
             );
-            this.$emit('close', null)
+            this.$emit('close', null);
             this.num_pro = null;
+            
+            buyProduct(this, {
+              dsrId: this.usr_id,
+              proId: this.pro_id,
+              productAmount: this.num_pro
+            }).then((result)=>{
+              console.log(result);
+            });
           }
+        },
+
+        cancel() {
+          this.$emit('close', null);
         }
       }
     }
