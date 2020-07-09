@@ -104,12 +104,12 @@ export default {
   },
   methods: {
     onsubmit () {
-      this.emailErrors = this.email ? [] : ['Email is required']
-      this.passwordErrors = this.password ? [] : ['Password is required']
-      this.usrErrors = this.username ? [] : ['Username is required']
-      this.phonenumErrors = this.phone_num ? [] : ['Phone number is required']
-      this.realnameErrors = this.realname ? [] : ['Realname is required']
-      this.agreedToTermsErrors = this.agreedToTerms ? [] : ['You must agree to the terms of use to continue']
+      this.emailErrors = this.email ? [] : ['Email is required'];
+      this.passwordErrors = this.password ? [] : ['Password is required'];
+      this.usrErrors = this.username ? [] : ['Username is required'];
+      this.phonenumErrors = this.phone_num ? [] : ['Phone number is required'];
+      this.realnameErrors = this.realname ? [] : ['Realname is required'];
+      this.agreedToTermsErrors = this.agreedToTerms ? [] : ['You must agree to the terms of use to continue'];
       if (!this.formReady) {
         return
       }

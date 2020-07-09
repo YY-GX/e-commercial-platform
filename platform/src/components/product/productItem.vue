@@ -33,7 +33,7 @@
 
 <script>
     import ProductDetail from "../productDetail/productDetail";
-    import {addWaitlist, getProductDetail} from '../../api/api.js'
+    import {addWaitlist, getProductDetail} from '../../api/mvo.js'
 
     export default {
       name: "product-item",

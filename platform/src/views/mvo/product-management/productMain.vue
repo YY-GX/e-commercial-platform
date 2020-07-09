@@ -27,23 +27,6 @@
           </div>
         </div>
 
-<!--        .container {-->
-<!--        &__image {-->
-<!--        display: inline-block;-->
-<!--        vertical-align: top;-->
-<!--        width: 20vw;-->
-<!--        }-->
-
-<!--        &__text {-->
-<!--        display: inline-block;-->
-<!--        width: 30vw;-->
-
-<!--        @media (max-width: 620px) {-->
-<!--        width: 100%;-->
-<!--        }-->
-<!--        }-->
-<!--        }-->
-
         <va-data-table
           :fields="fields"
           :data="filteredData"
@@ -65,6 +48,10 @@
           <template slot="actions" slot-scope="props">
             <va-button flat small color="gray" @click.stop="changeState(props.rowData)" class="ma-0">
               {{ props.rowData.stsCd  === 0 ? 'On' : 'Off' }}
+            </va-button>
+
+            <va-button flat small color="info" @click.stop="editProduct(props.rowData)" class="ma-0">
+              Edit
             </va-button>
 
             <va-button flat small color="danger" @click.stop="deleteProduct(props.rowData)" class="ma-0">
@@ -106,7 +93,7 @@
         okText=" Add "
         :cancelText=" $t('modal.cancel') ">
         <slot>
-          <add-product/>
+          <add-product v-on:close="closeAddPro" v-on:addPro="addPro"/>
         </slot>
       </va-modal>
 
@@ -115,7 +102,7 @@
 </template>
 
 <script>
-  import {getProductInfos, deleteProduct, changeProductStatus, getProductDetail} from '../../../api/api.js'
+  import {getProductInfos, deleteProduct, changeProductStatus, getProductDetail} from '../../../api/mvo.js'
   import ProductDetail from "../../../components/productDetail/productDetail";
   import AddProduct from "../../../components/productDetail/AddProduct";
 
@@ -361,6 +348,27 @@
 
         close(par) {
           this.showProductDetail = false;
+        },
+
+        closeAddPro(par) {
+          this.showAddProduct = false;
+        },
+
+        addPro(product) {
+          this.showAddProduct = false;
+          let basicInfo = {
+            proId: product.proId,
+            name: product.name,
+            skuCd: product.skuCd,
+            model: product.model,
+            description: product.description,
+            stsCd: 0,
+          };
+          this.fieldData.push(basicInfo);
+        },
+
+        editProduct(product) {
+          let proId = product.proId;
         }
       }
     }

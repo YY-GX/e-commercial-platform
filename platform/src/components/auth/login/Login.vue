@@ -28,7 +28,7 @@
 </template>
 
 <script>
-  import {login} from "../../../api/api.js"
+  import {login} from "../../../api/mvo.js"
 
 export default {
   name: 'login',

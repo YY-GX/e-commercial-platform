@@ -40,6 +40,11 @@ export function changeProductStatus(obj, data) {
   return obj.$http.post(path.join(base_url, '/mvo/product/status/update'), data)
 }
 
+// add product
+export function addProductApi(obj, data) {
+  return obj.$http.post(path.join(base_url, '/mvo/product/add'), data)
+}
+
 /*
 * Author: Fangyang Ye
 * Module: BVO

@@ -59,7 +59,7 @@
 </template>
 
 <script>
-  import {buyProduct} from '../../api/api.js'
+  import {buyProduct} from '../../api/mvo.js'
     export default {
       name: "product-detail",
       props: {
