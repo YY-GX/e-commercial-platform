@@ -1,11 +1,11 @@
 <template>
-    <div class="container">
+    <div class="container row">
 
-      <div class="container__image">
+      <div class="container__image flex xs12 md5">
         <img :src=img_url alt="Product Image" class="img">
       </div>
 
-      <div class="container__text">
+      <div class="container__text flex xs12 md6 offset--md1">
         <va-card
           stripe="info">
           <template slot="header" class="py-2">
@@ -15,6 +15,7 @@
           <va-badge class="mb-2 py-1 badge" color="dark" outline>Sku cd: {{skuCd}}</va-badge>
           <va-badge class="mb-2 py-1 badge" color="dark" outline>Model: {{model}}</va-badge>
           <br>
+          <span class="small-title">Basic information</span> <br>
           <span class="right-space"><label class="labels">RetailPrice: </label>
             <span class="text--highlighted">${{minRetailPrice}}</span>
           </span>
@@ -40,7 +41,12 @@
               error-messages="Please enter an integer number!"
             />
 
-            <va-button @click="addOrder" class="btn"> Buy me! </va-button>
+            <div class="row">
+              <div class="flex xs12 md5 offset--md7">
+                <va-button @click="addOrder" > Buy me! </va-button>
+              </div>
+            </div>
+
           </div>
 
 
@@ -126,24 +132,6 @@
 </script>
 
 <style scoped lang="scss">
-
-  .container {
-    &__image {
-      display: inline-block;
-      vertical-align: top;
-      width: 20vw;
-    }
-
-    &__text {
-      display: inline-block;
-      width: 30vw;
-
-      @media (max-width: 620px) {
-        width: 100%;
-      }
-    }
-  }
-
   .img {
     border-radius: 2.5%;
   }

@@ -27,6 +27,23 @@
           </div>
         </div>
 
+<!--        .container {-->
+<!--        &__image {-->
+<!--        display: inline-block;-->
+<!--        vertical-align: top;-->
+<!--        width: 20vw;-->
+<!--        }-->
+
+<!--        &__text {-->
+<!--        display: inline-block;-->
+<!--        width: 30vw;-->
+
+<!--        @media (max-width: 620px) {-->
+<!--        width: 100%;-->
+<!--        }-->
+<!--        }-->
+<!--        }-->
+
         <va-data-table
           :fields="fields"
           :data="filteredData"
@@ -47,7 +64,7 @@
 
           <template slot="actions" slot-scope="props">
             <va-button flat small color="gray" @click.stop="changeState(props.rowData)" class="ma-0">
-              {{ props.rowData.stsCd  === 1 ? 'On' : 'Off' }}
+              {{ props.rowData.stsCd  === 0 ? 'On' : 'Off' }}
             </va-button>
 
             <va-button flat small color="danger" @click.stop="deleteProduct(props.rowData)" class="ma-0">
@@ -81,16 +98,33 @@
         </slot>
       </va-modal>
 
+      <va-modal
+        v-model="showAddProduct"
+        size="large"
+        title=" Add New Product"
+        hideDefaultActions="true"
+        okText=" Add "
+        :cancelText=" $t('modal.cancel') ">
+        <slot>
+          <add-product/>
+        </slot>
+      </va-modal>
+
+
     </div>
 </template>
 
 <script>
   import {getProductInfos, deleteProduct, changeProductStatus, getProductDetail} from '../../../api/api.js'
   import ProductDetail from "../../../components/productDetail/productDetail";
+  import AddProduct from "../../../components/productDetail/AddProduct";
 
     export default {
       name: "product-main",
-      components: {ProductDetail},
+      components: {
+        ProductDetail,
+        AddProduct,
+      },
       data() {
         return {
           usr_id: 1,
@@ -108,6 +142,7 @@
           ],
           showModal: false,
           showProductDetail: false,
+          showAddProduct: false,
           deleteRow: null,
           product_detail: null,
           fake_data: {
@@ -321,7 +356,7 @@
         },
 
         addProduct() {
-
+          this.showAddProduct = true;
         },
 
         close(par) {
