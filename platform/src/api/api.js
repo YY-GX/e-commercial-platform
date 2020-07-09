@@ -35,6 +35,11 @@ export function deleteProduct(obj, data) {
   return obj.$http.post(path.join(base_url, '/mvo/product/delete'), data)
 }
 
+// change status of product
+export function changeProductStatus(obj, data) {
+  return obj.$http.post(path.join(base_url, '/mvo/product/status/update'), data)
+}
+
 /*
 * Author: Fangyang Ye
 * Module: BVO

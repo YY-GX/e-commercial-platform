@@ -24,7 +24,7 @@
         :okText=" $t('modal.confirm') "
         :cancelText=" $t('modal.cancel') ">
         <slot>
-          <product-detail v-on:close="close" :product_detail="product_detail" :usr_id="usr_id"/>
+          <product-detail v-on:close="close" :product_detail="product_detail" :usr_id="usr_id" role="bvo"/>
         </slot>
       </va-modal>
 

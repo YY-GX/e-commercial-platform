@@ -46,6 +46,7 @@
       textBy="description"
       :options="simpleOptions"
       clearable="false"
+      noClear
     />
 
     <div class="auth-layout__options d-flex align--center justify--space-between">

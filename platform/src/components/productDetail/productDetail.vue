@@ -29,17 +29,20 @@
           <label class="labels">WarrantyDay: </label>{{warrantyDay}}<br>
           <label class="labels">Warranty: </label>{{warranty}}<br>
 
-          <hr>
-          <label class="labels">Numbers you want: </label>
-          <va-input
-            class="input"
-            v-model="num_pro"
-            placeholder="Type a integer..."
-            :error="!is_number"
-            error-messages="Please enter an integer number!"
-          />
+          <div v-if="is_show">
+            <hr>
+            <label class="labels">Numbers you want: </label>
+            <va-input
+              class="input"
+              v-model="num_pro"
+              placeholder="Type a integer..."
+              :error="!is_number"
+              error-messages="Please enter an integer number!"
+            />
 
-          <va-button @click="addOrder" class="btn"> Buy me! </va-button>
+            <va-button @click="addOrder" class="btn"> Buy me! </va-button>
+          </div>
+
 
 <!--          {{ $t('cards.contentTextLong') }}-->
         </va-card>
@@ -55,6 +58,7 @@
       name: "product-detail",
       props: {
         usr_id: Number, // BVO id
+        role: String, // bvo or mvo
         product_detail: Object // details of product. The construct can be found in line ~106 in productItem.vue
       },
       data() {
@@ -76,6 +80,15 @@
 
           num_pro: null,
           is_number: true
+        }
+      },
+      computed: {
+        is_show() {
+          if (this.role === 'bvo') {
+            return true;
+          } else {
+            return false;
+          }
         }
       },
       methods: {

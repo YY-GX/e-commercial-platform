@@ -1,57 +1,115 @@
 <template>
     <div>
       <va-card title="Product List">
+        <div class="row align--center">
+          <div class="flex xs12 md5">
+            <va-input
+              v-model="term"
+              placeholder="Search by product name"
+              @input="search"
+              removable
+            >
+              <va-icon name="fa fa-search" slot="prepend" />
+            </va-input>
+          </div>
+
+          <div class="flex xs12 md2">
+            <va-select
+              v-model="perPage"
+              :label="$t('tables.perPage')"
+              :options="perPageOptions"
+              noClear
+            />
+          </div>
+
+          <div @click="addProduct" class="flex xs12 md2 offset--md3">
+            <va-button> Add product </va-button>
+          </div>
+        </div>
+
         <va-data-table
           :fields="fields"
-          :data="fieldData"
+          :data="filteredData"
           :per-page="parseInt(perPage)"
           @row-clicked="showProduct"
           clickable
+          class="va-table--hoverable"
         >
           <template slot="marker" slot-scope="props">
-            <va-icon name="fa fa-circle" :color="props.rowData.color" size="8px" />
+            <va-icon name="fa fa-circle" :color="props.rowData.stsCd === 1 ? '#ba5a31' : '#e59f71'" size="8px" />
           </template>
 
           <template slot="stsCd" slot-scope="props">
-            <va-badge :color="props.rowData.color">
-              {{ props.rowData.stsCd }}
+            <va-badge :color="props.rowData.stsCd === 1 ? '#ba5a31' : '#e59f71'">
+              {{ props.rowData.stsCd  === 1 ? 'On Shelf' : 'Off Shelf' }}
             </va-badge>
           </template>
 
           <template slot="actions" slot-scope="props">
-            <va-button small color="danger" class="ma-0" @click="deleteProduct(props.rowData)">
+            <va-button flat small color="gray" @click.stop="changeState(props.rowData)" class="ma-0">
+              {{ props.rowData.stsCd  === 1 ? 'On' : 'Off' }}
+            </va-button>
+
+            <va-button flat small color="danger" @click.stop="deleteProduct(props.rowData)" class="ma-0">
               Remove
             </va-button>
+
           </template>
-
-<!--          <template slot="actions" slot-scope="props">-->
-<!--            <va-toggle-->
-<!--              v-model="props.toggles.selected"-->
-<!--              small-->
-<!--              :label="props.toggles.label"-->
-<!--            />-->
-<!--          </template>-->
-
-
 
         </va-data-table>
       </va-card>
+
+      <va-modal
+        v-model="showModal"
+        size="small"
+        title=" Remove Confirmation"
+        message=" Are you sure to remove this product?"
+        :okText=" $t('modal.confirm') "
+        :cancelText=" $t('modal.cancel') "
+        @ok="onOk"
+      />
+
+      <va-modal
+        v-model="showProductDetail"
+        size="large"
+        title=" Product Detail Information"
+        hideDefaultActions="true"
+        :okText=" $t('modal.confirm') "
+        :cancelText=" $t('modal.cancel') ">
+        <slot>
+          <product-detail v-on:close="close" :product_detail="product_detail" :usr_id="usr_id" role="mvo"/>
+        </slot>
+      </va-modal>
+
     </div>
 </template>
 
 <script>
-  import {getProductInfos, deleteProduct} from '../../../api/api.js'
+  import {getProductInfos, deleteProduct, changeProductStatus, getProductDetail} from '../../../api/api.js'
+  import ProductDetail from "../../../components/productDetail/productDetail";
 
     export default {
       name: "product-main",
+      components: {ProductDetail},
       data() {
         return {
+          usr_id: 1,
           fieldData: null,
           toggles: {
             label: 'On Shelf',
             selected: true,
           },
+          term: null,
           perPage: '6',
+          perPageOptions: ['4', '6', '10', '20'],
+          options: [
+            { label: 'On Shelf', value: 'on' },
+            { label: 'Off Shelf', value: 'off' },
+          ],
+          showModal: false,
+          showProductDetail: false,
+          deleteRow: null,
+          product_detail: null,
           fake_data: {
             data: [
               {
@@ -64,7 +122,7 @@
               },
               {
                 proId: "2",
-                name: "yfy",
+                name: "yy",
                 skuCd: '4139431679614897236',
                 model: 'V2',
                 description: 'good good good good good good good good',
@@ -88,7 +146,7 @@
               },
               {
                 proId: "5",
-                name: "yfy",
+                name: "chj",
                 skuCd: '4139431679614897236',
                 model: 'V2',
                 description: 'good good good good good good good good',
@@ -124,15 +182,14 @@
       },
       created() {
         this.fieldData = this.fake_data.data; // to be deleted in the future
-        this.fieldData.forEach(v=>{
-          v['color'] = v['stsCd'] === 1 ? '#8DDC88' : '#F8706D';
-          v['stsCd'] = v['stsCd'] === 1 ? 'On Shelf' : 'Off Shelf';
-        });
-        postData = {'brdId': 1};
+
+        // get usrId from vuex
+
+        postData = {'brdId': this.usr_id};
         getProductInfos(this, postData)
           .then((res)=>{
             if (res.status === 200) {
-              console.log(res.data)
+              console.log(res.data);
               this.fieldData = res.data
             } else {
               console.log('Get all product info fails. Status=500.')
@@ -155,22 +212,62 @@
             name: 'model',
             title: 'model',
           }, {
-            name: 'description',
-            title: 'description',
-          }, {
             name: '__slot:stsCd',
             title: this.$t('tables.headings.status'),
+          }, {
+            name: 'description',
+            title: 'description',
           }, {
             name: '__slot:actions',
             dataClass: 'text-right',
           }]
-        }
+        },
+        filteredData () {
+          if (!this.term || this.term.length < 1) {
+            return this.fieldData
+          }
+
+          return this.fieldData.filter(item => {
+            return item.name.toLowerCase().startsWith(this.term.toLowerCase())
+          })
+        },
       },
       methods: {
-        showProduct() {
+        showProduct(row) {
+          console.log(row);
+          this.product_detail = {
+            'pro_id': row.proId,
+            'imageUrl': "https://picsum.photos/300/200/?image=1043",
+            'name': 'fengjinghua',
+            'skuCd': '1e212312321232',
+            'model': 'V2',
+            'width': 1,
+            'height': 2,
+            'length': 3,
+            'weight': 10,
+            'retailPrice':  12,
+            'minRetailPrice': 10,
+            'warrantyDay': 60,
+            'replenishmentPeriod': 10,
+            'warranty': 'Never Never Never Never Never Never Never ',
+          }; // delete in the future
+          this.showProductDetail = true;
 
+          getProductDetail(this, {
+            proId: row.proId
+          }).then((result)=>{
+            console.log(result);
+            this.product_detail = result.data;
+          });
         },
+
         deleteProduct(row) {
+          this.showModal = true;
+          this.deleteRow = row;
+        },
+
+        onOk() {
+          let row = this.deleteRow;
           const idx = this.fieldData.findIndex(u => u.proId === row.proId);
           this.fieldData.splice(idx, 1);
 
@@ -180,20 +277,66 @@
               theme: 'danger',
               icon: 'fa-heart',
               position: 'top-right',
-              duration: 500,
+              duration: 1000,
               fullWidth: false,
             },
           );
+
+          this.showModal = false;
+
           deleteProduct(this, {
             proId: row.proId
           }).then((res)=>{
             console.log(res.data)
           })
+        },
+
+        changeState(row) {
+          console.log(row);
+          const idx = row.proId + '';
+          this.fieldData.forEach(v=>{
+            if (v.proId === idx) {
+              console.log(v);
+              v['stsCd'] = v['stsCd'] === 1 ? 0 : 1;
+            }
+          });
+
+          this.showToast(
+            "Product " + row.name + "'s status changed!",
+            {
+              theme: 'info',
+              icon: 'fa-heart',
+              position: 'top-right',
+              duration: 1000,
+              fullWidth: false,
+            },
+          );
+
+          changeProductStatus(this, {
+            proId: idx
+          }).then((res) => {
+            console.log(res.data)
+
+          })
+        },
+
+        addProduct() {
+
+        },
+
+        close(par) {
+          this.showProductDetail = false;
         }
       }
     }
+
+  //     .btn-color {
+  //   color: linear-gradient(to right, hsl(12,100%,78%), hsl(1,91%,70%));
+  // }
 </script>
 
 <style scoped>
-
+  .btn-state {
+    margin-right: 1vw;
+  }
 </style>
