@@ -72,7 +72,7 @@
         okText=" Confirm "
         :cancelText=" $t('modal.cancel') ">
         <slot>
-          <track-info />
+          <track-info v-on:close="close"/>
         </slot>
       </va-modal>
     </div>
@@ -94,6 +94,8 @@
           term: '',
           is_ship: false,
           is_cancel: false,
+
+          showTrackInfo: false,
 
 
           perPage: '10',
@@ -188,6 +190,7 @@
 
         },
         track(row) {
+          this.showTrackInfo = true;
 
         },
         cancel(row) {
@@ -240,8 +243,6 @@
 
             })
         },
-
-
         getColor(row) {
           let state = row.orderSts;
           if (state === 1 + '') {
@@ -270,6 +271,9 @@
             return 'Canceled'
           }
         },
+        close(par) {
+          this.showTrackInfo = false;
+        }
 
       },
       computed: {
