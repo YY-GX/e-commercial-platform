@@ -151,7 +151,6 @@
 
 
         <!--   description   -->
-
         <div class="layout gutter--md fluid">
           <div class="row">
 
@@ -162,6 +161,23 @@
                 label="Description"
                 :error="!!descriptionErrors.length"
                 :error-messages="descriptionErrors"
+              />
+            </div>
+
+          </div>
+        </div>
+
+
+        <!--   upload   -->
+        <div class="layout gutter--md fluid">
+          <div class="row">
+
+            <div class="flex lg12">
+              <va-file-upload
+                type="gallery"
+                file-types=".png, .jpg, .jpeg, .gif"
+                dropzone
+                v-model="imgUrl"
               />
             </div>
 
@@ -272,6 +288,7 @@
             replenishmentPeriod: '',
             warranty: '',
             categoryNam: '',
+            imgUrl: '',
 
             brdIdErrors: [],
             manIdErrors: [],
@@ -353,6 +370,8 @@
       },
       methods: {
         addProduct() {
+          console.log(this.imgUrl);
+
           this.brdIdErrors = this.brdId ? [] : ['Brand is required!'];
           this.manIdErrors = this.manId ? [] : ['Company is required!'];
           this.nameErrors = this.name ? [] : ['Name is required!'];

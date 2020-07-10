@@ -45,6 +45,31 @@ export function addProductApi(obj, data) {
   return obj.$http.post(path.join(base_url, '/mvo/product/add'), data)
 }
 
+// edit product
+export function editProductApi(obj, data) {
+  return obj.$http.post(path.join(base_url, '/pro/mvo/product/detail/update'), data)
+}
+
+// upload images
+export function uploadImg(obj, data) {
+  return obj.$http.post(path.join(base_url, '/pro/mvo/product/image/upload'), data)
+}
+
+// get order list
+export function getOrderList(obj, data) {
+  return obj.$http.get(path.join(base_url, '/order/info/get'), data)
+}
+
+// ship order
+export function shipOrder(obj, data) {
+  return obj.$http.post(path.join(base_url, '/order/ship'), data)
+}
+
+// cancel ship
+export function cancelOrder(obj, data) {
+  return obj.$http.post(path.join(base_url, '/order/ship/cancel'), data)
+}
+
 /*
 * Author: Fangyang Ye
 * Module: BVO

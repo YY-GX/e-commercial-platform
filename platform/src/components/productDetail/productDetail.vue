@@ -119,7 +119,7 @@
             );
             this.$emit('close', null);
             this.num_pro = null;
-            
+
             buyProduct(this, {
               dsrId: this.usr_id,
               proId: this.pro_id,

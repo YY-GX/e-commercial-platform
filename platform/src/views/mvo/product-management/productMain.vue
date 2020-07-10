@@ -2,7 +2,7 @@
     <div>
       <va-card title="Product List">
         <div class="row align--center">
-          <div class="flex xs12 md5">
+          <div class="flex lg5">
             <va-input
               v-model="term"
               placeholder="Search by product name"
@@ -13,7 +13,7 @@
             </va-input>
           </div>
 
-          <div class="flex xs12 md2">
+          <div class="flex lg2">
             <va-select
               v-model="perPage"
               :label="$t('tables.perPage')"
@@ -22,7 +22,7 @@
             />
           </div>
 
-          <div @click="addProduct" class="flex xs12 md2 offset--md3">
+          <div @click="addProduct" class="flex lg2 offset--lg2">
             <va-button> Add product </va-button>
           </div>
         </div>
@@ -97,6 +97,18 @@
         </slot>
       </va-modal>
 
+      <va-modal
+        v-model="showEditProduct"
+        size="large"
+        title=" Edit Product"
+        hideDefaultActions="true"
+        okText=" Confirm "
+        :cancelText=" $t('modal.cancel') ">
+        <slot>
+          <edit-product :proId="editId" v-on:close="closeEditPro" v-on:editPro="editPro"/>
+        </slot>
+      </va-modal>
+
 
     </div>
 </template>
@@ -105,12 +117,14 @@
   import {getProductInfos, deleteProduct, changeProductStatus, getProductDetail} from '../../../api/mvo.js'
   import ProductDetail from "../../../components/productDetail/productDetail";
   import AddProduct from "../../../components/productDetail/AddProduct";
+  import EditProduct from "../../../components/productDetail/EditProduct";
 
     export default {
       name: "product-main",
       components: {
         ProductDetail,
         AddProduct,
+        EditProduct,
       },
       data() {
         return {
@@ -130,6 +144,8 @@
           showModal: false,
           showProductDetail: false,
           showAddProduct: false,
+          showEditProduct: false,
+          editId: null,
           deleteRow: null,
           product_detail: null,
           fake_data: {
@@ -354,6 +370,10 @@
           this.showAddProduct = false;
         },
 
+        closeEditPro(par) {
+          this.showEditProduct = false;
+        },
+
         addPro(product) {
           this.showAddProduct = false;
           let basicInfo = {
@@ -367,8 +387,23 @@
           this.fieldData.push(basicInfo);
         },
 
+        editPro(product) {
+          this.showEditProduct = false;
+          this.fieldData.forEach(v=>{
+            if (v.proId === product.proId + '') {
+               v.name = product.name;
+               v.skuCd = product.skuCd;
+               v.model = product.model;
+               v.description = product.description;
+               // break
+          }
+          })
+        },
+
         editProduct(product) {
           let proId = product.proId;
+          this.editId = proId;
+          this.showEditProduct = true;
         }
       }
     }
