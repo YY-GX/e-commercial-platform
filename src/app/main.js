@@ -12,13 +12,24 @@ import { VuesticPlugin } from '../services/vuestic-ui/components'
 import '../i18n/index'
 import YmapPlugin from 'vue-yandex-maps'
 import VueClipboard from 'vue-clipboard2'
+import axios from 'axios'
 
 import '../metrics'
 import '../registerServiceWorker'
 
+
 import { consoleBuildInfo } from 'vue-cli-plugin-build-info/plugin'
 
 consoleBuildInfo()
+
+var imageUpload = axios.create({
+  baseURL:'',
+  timeout:5000,
+  headers:{"Content-Type":"multipart/form-data"}
+})
+
+Vue.prototype.$http = axios
+Vue.prototype.imageUpload = imageUpload
 
 Vue.use(VuesticPlugin)
 Vue.use(YmapPlugin)

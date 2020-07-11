@@ -1,7 +1,9 @@
 const state = {
   companyID : 0,
   brandID : 0,
-  storeID : 0
+  storeID : 0,
+  storeInfo : {},
+  dsrId : 0
 }
 
 const mutations = {
@@ -13,6 +15,12 @@ const mutations = {
   },
   changeStoreID : function(state,id){
     state.storeID = id;
+  },
+  saveStoreInfo : function(state,obj){
+    state.storeInfo = obj;
+  },
+  changeDsrId : function(state,id){
+    state.dsrId = id;
   }
 }
 

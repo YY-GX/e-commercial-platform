@@ -81,6 +81,26 @@ export default new Router({
           component: () => import('../components/dashboard/Dashboard.vue'),
           default: true,
         },
+        /*
+           自己添加新的router
+         */
+        {
+          name: 'BVO',
+          path: 'BVO',
+          component: EmptyParentComponent,
+          children: [
+            {
+              name: 'BVO_info',
+              path: 'BVO_info',
+              component: () => import('../view/BVO_main.vue'),
+            },
+            {
+              name: 'BVO_store',
+              path: 'BVO_store',
+              component: () => import('../view/BVO_store.vue')
+            }
+          ]
+        },
         {
           name: 'statistics',
           path: 'statistics',

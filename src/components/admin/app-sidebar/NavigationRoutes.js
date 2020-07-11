@@ -12,6 +12,20 @@ export const navigationRoutes = {
       },
     },
     {
+      name: 'BVO',
+      displayName: 'menu.BVO',
+      meta: {
+        iconClass: 'vuestic-iconset vuestic-iconset-dashboard',
+      },
+      disabled:true,
+      children:[
+        {
+          name: 'BVO_info',
+          displayName: 'menu.BVO_info',
+        },
+      ]
+    },
+    {
       name: 'statistics',
       displayName: 'menu.statistics',
       meta: {

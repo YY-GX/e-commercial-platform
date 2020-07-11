@@ -26,20 +26,19 @@
           <h5 class="mt-0 mb-0" style="color: #0e4ac4;">{{ title }}</h5>
         </template>
         {{intro}}
-        {{type}}
         <!-- 遮罩层 -->
         <!--<div v-show="ishover" style=" position: absolute; z-index: 2; background: rgba(0, 0, 0, 0.6); left: 0; top: 0; width: 100%; height: 100%;"></div>-->
       </va-card>
     </div>
     <va-modal
-      v-model="showConfirm"
-      size="small"
-      title=" Remove Confirmation"
-      :message="remindMessage"
-      :okText=" $t('modal.confirm') "
-      :cancelText=" $t('modal.cancel') "
-      @ok="confirmRemove"
-    />
+    v-model="showConfirm"
+    size="small"
+    title=" Remove Confirmation"
+    :message="remindMessage"
+    :okText=" $t('modal.confirm') "
+    :cancelText=" $t('modal.cancel') "
+    @ok="confirmRemove"
+  />
   </div>
 </template>
 
@@ -50,13 +49,14 @@
   import axios from "axios"
   export default {
     name: 'myCube',
-    components: {VaIcon, VaCard},
+    components: { VaIcon, VaCard},
     props: {
       imageUrl : String,
       title : String,
       intro : String,
       type: String ,//英文，全小写(company,brand,store)
-      id: Number // company,brand或store的id 方便查询详细信息与删除
+      id: Number ,// company,brand或store的id 方便查询详细信息与删除
+      wholeData : Object
     },
     data () {
       return {
@@ -76,7 +76,7 @@
 
         switch (this.type) { //根据type请求相应api与跳转相应页面
           case "company" :
-            this.$store.commit("changeCompanyID",this.id)//保存当前选中id于vuex中
+            this.$store.commit("changeCompanyID",this.id);//保存当前选中id于vuex中
             console.log(this.$store.state.yfy.companyID);
             //this.$router.push("/MVO_main/Company")
             break;
@@ -86,9 +86,10 @@
             //this.$router.push("/MVO_main/Brand")
             break;
           case "store" :
-            this.$store.commit("changeStoreID",this.id)
+            this.$store.commit("changeStoreID",this.id);
+            this.$store.commit("saveStoreInfo",this.wholeData);
             console.log(this.$store.state.yfy.storeID);
-            //this.$router.push("/MVO_main/Store")
+            this.$router.push("BVO_store");
             break;
           default :
             console.log("有问题啊兄弟");
@@ -116,7 +117,7 @@
   }
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
   .cards-container {
     .va-card {
       margin: 0;
