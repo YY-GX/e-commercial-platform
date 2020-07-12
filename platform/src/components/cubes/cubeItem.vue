@@ -145,8 +145,9 @@
               this.product_detail = result.data;
             });
           } else if (this.type === 'company') {
-            this.$router.push("/info/companydetail")
+            this.$router.push({name: 'company-detail'})
           } else if (this.type === 'brand') {
+
             this.$router.push("/info/branddetail")
           } else if (this.type === 'store') { // store
             this.$router.push("/info/companydetail") // YYGX: change the path by yourself. It jump to the store detail page.
@@ -198,8 +199,8 @@
 
 <style scoped>
   .container {
-    margin-top: 2vh;
-    margin-bottom: 1vh;
+    margin: 2vh;
+    min-width: 13vw;
   }
 
   .title {

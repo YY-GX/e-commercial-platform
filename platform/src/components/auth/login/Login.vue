@@ -48,8 +48,8 @@ export default {
   },
   methods: {
     onsubmit () {
-      this.usrErrors = this.username ? [] : ['Username is required']
-      this.passwordErrors = this.password ? [] : ['Password is required']
+      this.usrErrors = this.username ? [] : ['Username is required'];
+      this.passwordErrors = this.password ? [] : ['Password is required'];
       if (!this.formReady) {
         return
       }

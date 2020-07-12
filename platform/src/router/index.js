@@ -15,10 +15,10 @@ let router = new Router({
   mode: process.env.VUE_APP_ROUTER_MODE_HISTORY === 'true' ? 'history' : 'hash',
   routes: [
     ...demoRoutes,
-    {
-      path: '*',
-      redirect: { name: 'login' },
-    },
+    // {
+    //   path: '*',
+    //   redirect: { name: 'login' },
+    // },
     {
       path: '/auth',
       component: AuthLayout,
