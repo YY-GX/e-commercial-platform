@@ -1,18 +1,20 @@
 <template>
   <div class="dashboard">
-    <product-item
+    <cube-item
       :img_url="img_url"
       :img_title="img_title"
       :img_intro="img_intro"
+      type="product"
       product_id=1
       usr_id=1
-      v-on:delete_product="delete_product"
-      class="product"/>
+      v-on:delete_product="delete_product"/>
+
   </div>
 </template>
 
 <script>
-import ProductItem from "../product/productItem";
+import cubeItem from "../cubes/cubeItem";
+import cube from "../cubes/cube"
 export default {
   name: 'dashboard',
   data() {
@@ -23,7 +25,8 @@ export default {
     }
   },
   components: {
-    ProductItem
+    cubeItem,
+    cube
   },
   methods: {
     delete_product(val) {
@@ -33,8 +36,6 @@ export default {
 }
 </script>
 
-<style lang="scss">
-  .product {
-    width: 25%;
-  }
+<style lang="scss" scoped>
+
 </style>

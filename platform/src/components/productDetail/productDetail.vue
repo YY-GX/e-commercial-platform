@@ -1,5 +1,5 @@
 <template>
-    <div class="container row">
+    <div class="row">
 
       <div class="container__image flex xs12 md5">
         <img :src=img_url alt="Product Image" class="img">
@@ -45,8 +45,8 @@
               <div class="flex lg5 offset--md2">
                 <va-button @click="cancel" small flat color="gray" class="flex lg7 offset--lg5"> Cancel </va-button>
               </div>
-              <div class="flex lg4">
-                <va-button small @click="addOrder" > Buy me! </va-button>
+              <div class="flex lg5">
+                <va-button small @click="addOrder" > Order me! </va-button>
               </div>
             </div>
 

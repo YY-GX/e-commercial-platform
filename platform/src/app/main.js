@@ -17,15 +17,15 @@ import '../metrics'
 import '../registerServiceWorker'
 
 import axios from 'axios'
-// import VueAxios from 'vue-axios'
+import VueAxios from 'vue-axios'
 
 import { consoleBuildInfo } from 'vue-cli-plugin-build-info/plugin'
 
 consoleBuildInfo()
 
-Vue.prototype.$http= axios
+Vue.prototype.$http= axios;
 
-// Vue.use(VueAxios,axios);
+Vue.use(VueAxios, axios);
 Vue.use(VuesticPlugin)
 Vue.use(YmapPlugin)
 Vue.use(VueClipboard)
@@ -33,6 +33,7 @@ Vue.use(VueClipboard)
 Vue.use(ColorThemePlugin, {
   // override colors here.
 })
+
 
 router.beforeEach((to, from, next) => {
   store.commit('setLoading', true)

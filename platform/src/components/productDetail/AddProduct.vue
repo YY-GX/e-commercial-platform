@@ -272,8 +272,8 @@
       name: "add-product",
       data() {
           return {
-            brdId: '',
-            manId: '',
+            brdId: '1',
+            manId: '1',
             name: '',
             skuCd: '',
             model: '',
@@ -287,7 +287,7 @@
             warrantyDay: '',
             replenishmentPeriod: '',
             warranty: '',
-            categoryNam: '',
+            categoryName: '',
             imgUrl: '',
 
             brdIdErrors: [],
@@ -370,7 +370,6 @@
       },
       methods: {
         addProduct() {
-          console.log(this.imgUrl);
 
           this.brdIdErrors = this.brdId ? [] : ['Brand is required!'];
           this.manIdErrors = this.manId ? [] : ['Company is required!'];
@@ -387,7 +386,7 @@
           this.warrantyDayErrors = this.warrantyDay ? [] : ['Warranty day is required!'];
           this.replenishmentPeriodErrors = this.replenishmentPeriod ? [] : ['Replenishment period is required!'];
           this.warrantyErrors = this.warranty ? [] : ['Warranty is required!'];
-          this.categoryNameErrors = this.categoryNam ? [] : ['Category Name is required!'];
+          this.categoryNameErrors = this.categoryName ? [] : ['Category Name is required!'];
 
           if (!this.formReady) {
             return;
@@ -409,9 +408,10 @@
             warrantyDay: this.warrantyDay,
             replenishmentPeriod: this.replenishmentPeriod,
             warranty: this.warranty,
-            categoryNam: this.categoryNam,
+            categoryName: this.categoryName,
           };
           this.$emit('addPro', postData);
+
           addProductApi(this, postData)
             .then((res)=>{
               console.log(res.data)
