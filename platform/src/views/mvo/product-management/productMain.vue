@@ -90,7 +90,7 @@
         size="large"
         title=" Add New Product"
         hideDefaultActions="true"
-        okText=" Add "
+        okText=" Add Product "
         :cancelText=" $t('modal.cancel') ">
         <slot>
           <add-product v-on:close="closeAddPro" v-on:addPro="addPro"/>

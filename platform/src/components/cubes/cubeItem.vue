@@ -198,7 +198,8 @@
 
 <style scoped>
   .container {
-    width: 25%;
+    margin-top: 2vh;
+    margin-bottom: 1vh;
   }
 
   .title {
@@ -226,7 +227,7 @@
 
   .removeIcon {
     position: absolute;
-    margin-left: 88%;
+    margin-left: 85%;
     margin-top: 1%;
     z-index: 3;
   }

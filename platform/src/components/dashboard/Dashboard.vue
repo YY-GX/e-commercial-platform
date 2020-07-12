@@ -6,8 +6,7 @@
       :img_intro="img_intro"
       type="product"
       product_id=1
-      usr_id=1
-      v-on:delete_product="delete_product"/>
+      usr_id=1 />
 
   </div>
 </template>

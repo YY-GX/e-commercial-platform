@@ -89,6 +89,12 @@ export function deleteBrand(obj, data) {
   return obj.$http.post(base_url + '/info/brand/delete', data)
 }
 
+// Add company
+export function addCompany(obj, data) {
+  console.log(obj.$http.post(base_url + '/info/company/add', data))
+  return obj.$http.post(base_url + '/info/company/add', data)
+}
+
 /*
 * Author: Fangyang Ye
 * Module: BVO
