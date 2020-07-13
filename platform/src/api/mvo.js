@@ -91,8 +91,17 @@ export function deleteBrand(obj, data) {
 
 // Add company
 export function addCompany(obj, data) {
-  console.log(obj.$http.post(base_url + '/info/company/add', data))
-  return obj.$http.post(base_url + '/info/company/add', data)
+  return obj.$http.post(base_url + '/info/brand/add', data)
+}
+
+// Get company basic information
+export function getCompanyInfo(obj, data) {
+  console.log(obj.$http.get(base_url + '/info/company/get', {
+    params: data
+  }))
+  return obj.$http.get(base_url + '/info/company/get', {
+    params: data
+  })
 }
 
 /*

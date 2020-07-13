@@ -145,12 +145,13 @@
               this.product_detail = result.data;
             });
           } else if (this.type === 'company') {
+            this.$store.commit("changeCompanyID", this.cube_id);
             this.$router.push({name: 'company-detail'})
           } else if (this.type === 'brand') {
-
-            this.$router.push("/info/branddetail")
+            this.$store.commit("changeBrandID", this.cube_id);
+            this.$router.push({name: 'brand-detail'})
           } else if (this.type === 'store') { // store
-            this.$router.push("/info/companydetail") // YYGX: change the path by yourself. It jump to the store detail page.
+            this.$router.push({name: 'brand-detail'}) // YYGX: change the path by yourself. It jump to the store detail page.
           } else {
             console.log('>> Error: the prop of cube_id should be product, company, brand or store!')
           }

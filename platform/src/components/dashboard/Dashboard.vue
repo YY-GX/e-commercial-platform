@@ -13,7 +13,6 @@
 
 <script>
 import cubeItem from "../cubes/cubeItem";
-import cube from "../cubes/cube"
 export default {
   name: 'dashboard',
   data() {
@@ -25,7 +24,6 @@ export default {
   },
   components: {
     cubeItem,
-    cube
   },
   methods: {
     delete_product(val) {
