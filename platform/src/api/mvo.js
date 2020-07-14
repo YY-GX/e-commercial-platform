@@ -1,11 +1,40 @@
+import https from 'https';
+
 let ip = '39.106.57.246';
 let port = '4396';
 let base_url = 'http://' + ip + ':' + port;
-const path = require('path');
 
 // login submit的api
 export function login(obj, data) {
-  return obj.$http.post(base_url + '/login', data)
+  return obj.$http.post(base_url + '/user/login', data)
+}
+
+// Get code
+export function getCode(obj) {
+  return obj.$http.get(base_url + '/user/code', {responseType: 'arraybuffer'})
+}
+
+// Get token
+export function getToken(obj, data) {
+  // const instance = obj.$http.create({
+  //   httpsAgent: new https.Agent({
+  //     rejectUnauthorized: false
+  //   })
+  // });
+  // console.log(instance);
+  // console.log(instance.post(base_url + '/oauth/token', data));
+  console.log(obj.$http.post(base_url + '/oauth/token', data,{
+    httpsAgent: new https.Agent({
+      rejectUnauthorized: false
+    })
+  }));
+  const httpsAgent = new https.Agent({
+    rejectUnauthorized: false, // (NOTE: this will disable client verification)
+    cert: fs.readFileSync("./usercert.pem"),
+    key: fs.readFileSync("./key.pem"),
+    passphrase: "YYY"
+  })
+  return obj.$http.post(base_url + '/oauth/token', data,{ httpsAgent })
 }
 
 /*
@@ -94,7 +123,7 @@ export function addCompany(obj, data) {
   return obj.$http.post(base_url + '/info/brand/add', data)
 }
 
-// Get company basic information
+// Get company information
 export function getCompanyInfo(obj, data) {
   console.log(obj.$http.get(base_url + '/info/company/get', {
     params: data
@@ -104,6 +133,12 @@ export function getCompanyInfo(obj, data) {
   })
 }
 
+// Get brand information
+export function getBrandInfo(obj, data) {
+  return obj.$http.get(base_url + '/info/brand/get', {
+    params: data
+  })
+}
 /*
 * Author: Fangyang Ye
 * Module: BVO

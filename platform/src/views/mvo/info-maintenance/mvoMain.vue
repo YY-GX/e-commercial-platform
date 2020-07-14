@@ -129,7 +129,7 @@
 
 <script>
   import cubeItem from '../../../components/cubes/cubeItem'
-  import {addCompany} from '../../../api/mvo'
+  import {addCompany, getCompanyInfo} from '../../../api/mvo'
   import store from '../../../store/index';
 
     export default {
@@ -159,7 +159,10 @@
             nameEn: '',
             nameCn: '',
             description: '',
-            gmcType: '',
+            gmcType: {
+              id: 1,
+              description: 'TÜV',
+            },
             gmcUrl: ''
           },
 
@@ -355,6 +358,16 @@
         }
       },
 
+      computed: {
+        formReady () {
+          return !this.nameEnErrors.length &&
+                !this.nameCnErrors.length &&
+                !this.descriptionErrors.length &&
+                !this.gmcTypeErrors.length &&
+                !this.gmcUrlErrors.length
+        },
+      },
+
       methods: {
         click_add() {
           this.showAddCompany = true;
@@ -362,8 +375,24 @@
         onOk() {
           this.add_company.gmcType = this.add_company.gmcType.id;
           this.add_company.userId = this.$store.state.mvo.userId;
+
+          this.nameEnErrors = this.add_company.nameEn ? [] : 'nameEn is required';
+          this.nameCnErrors = this.add_company.nameCn ? [] : 'nameCn is required';
+          this.descriptionErrors = this.add_company.description ? [] : 'description is required';
+          this.gmcTypeErrors = this.add_company.gmcType ? [] : 'gmcType is required';
+          this.gmcUrlErrors = this.add_company.gmcUrl ? [] : 'gmcUrl is required';
+          if (!this.formReady) {
+            this.showAddCompany = true;
+            return;
+          }
+
           console.log(this.add_company);
           this.showAddCompany = false;
+
+          // add to the current page
+          this.add_company['imageUrl'] ='https://picsum.photos/300/200/?image=1043'; // to be deleted...
+          this.company_list.push(this.add_company);
+
           addCompany(this, this.add_company)
             .then(res=>{
               console.log(res);
@@ -373,6 +402,12 @@
 
       created() {
         this.company_list = this.fake_data; // to be deleted...
+        console.log(989)
+        getCompanyInfo(this, {userId: this.$store.state.mvo.userId})
+          .then((res) => {
+            console.log(res)
+
+          })
       }
     }
 </script>

@@ -35,6 +35,7 @@
           clickable
           class="va-table--hoverable"
         >
+
           <template slot="marker" slot-scope="props">
             <va-icon name="fa fa-circle" :color="props.rowData.stsCd === 1 ? '#ba5a31' : '#e59f71'" size="8px" />
           </template>

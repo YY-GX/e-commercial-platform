@@ -3,7 +3,7 @@ import index from '../router';
 
 // axios 配置
 axios.defaults.timeout = 8000;
-axios.defaults.baseURL = 'https://api.github.com';
+axios.defaults.baseURL = 'https://39.106.57.246:4396';
 
 // http request 拦截器
 axios.interceptors.request.use(

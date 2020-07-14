@@ -206,6 +206,10 @@
           this.showAddBrand = true;
           return;
         }
+
+        this.add_brand['imageUrl'] = 'https://picsum.photos/300/200/?image=1043'; // to be deleted...
+        this.brand_list.push(this.add_brand);
+
         this.add_brand.manId = this.$store.state.mvo.manId;
         console.log(this.add_brand);
         this.showAddBrand = false;

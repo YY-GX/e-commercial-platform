@@ -21,7 +21,9 @@ import VueAxios from 'vue-axios'
 
 import { consoleBuildInfo } from 'vue-cli-plugin-build-info/plugin'
 
-consoleBuildInfo()
+consoleBuildInfo();
+
+axios.defaults.withCredentials = true;
 
 Vue.prototype.$http= axios;
 
