@@ -6,6 +6,7 @@ let base_url = 'http://' + ip + ':' + port;
 
 // login submit的api
 export function login(obj, data) {
+  console.log(obj.$http.post(base_url + '/user/login', data))
   return obj.$http.post(base_url + '/user/login', data)
 }
 
@@ -59,9 +60,16 @@ export function buyProduct(obj, data) {
   return obj.$http.post(base_url + '/order/product/buy', data)
 }
 
-// get all product information
-export function getProductInfos(obj, data) {
+// get all product information by brdId
+export function getProductInfosByBrd(obj, data) {
   return obj.$http.get(base_url + '/pro/mvo/product/get', {
+    params: data
+  })
+}
+
+// get all product information by usrId
+export function getProductInfosByUsr(obj, data) {
+  return obj.$http.get(base_url + '/pro/mvo/product/all', {
     params: data
   })
 }
@@ -125,9 +133,6 @@ export function addCompany(obj, data) {
 
 // Get company information
 export function getCompanyInfo(obj, data) {
-  console.log(obj.$http.get(base_url + '/info/company/get', {
-    params: data
-  }))
   return obj.$http.get(base_url + '/info/company/get', {
     params: data
   })
@@ -139,7 +144,3 @@ export function getBrandInfo(obj, data) {
     params: data
   })
 }
-/*
-* Author: Fangyang Ye
-* Module: BVO
-* */

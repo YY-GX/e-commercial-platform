@@ -37,18 +37,18 @@
         >
 
           <template slot="marker" slot-scope="props">
-            <va-icon name="fa fa-circle" :color="props.rowData.stsCd === 1 ? '#ba5a31' : '#e59f71'" size="8px" />
+            <va-icon name="fa fa-circle" :color="props.rowData.stsCd === 1 + ''? '#ba5a31' : '#e59f71'" size="8px" />
           </template>
 
           <template slot="stsCd" slot-scope="props">
-            <va-badge :color="props.rowData.stsCd === 1 ? '#ba5a31' : '#e59f71'">
-              {{ props.rowData.stsCd  === 1 ? 'On Shelf' : 'Off Shelf' }}
+            <va-badge :color="props.rowData.stsCd === 1 + '' ? '#ba5a31' : '#e59f71'">
+              {{ props.rowData.stsCd  === 1 + '' ? 'On Shelf' : 'Off Shelf' }}
             </va-badge>
           </template>
 
           <template slot="actions" slot-scope="props">
             <va-button flat small color="gray" @click.stop="changeState(props.rowData)" class="ma-0">
-              {{ props.rowData.stsCd  === 0 ? 'On' : 'Off' }}
+              {{ props.rowData.stsCd  === 0 + '' ? 'On' : 'Off' }}
             </va-button>
 
             <va-button flat small color="info" @click.stop="editProduct(props.rowData)" class="ma-0">
@@ -115,7 +115,7 @@
 </template>
 
 <script>
-  import {getProductInfos, deleteProduct, changeProductStatus, getProductDetail} from '../../../api/mvo.js'
+  import {getProductInfosByUsr, deleteProduct, changeProductStatus, getProductDetail} from '../../../api/mvo.js'
   import ProductDetail from "../../../components/productDetail/productDetail";
   import AddProduct from "../../../components/productDetail/AddProduct";
   import EditProduct from "../../../components/productDetail/EditProduct";
@@ -130,7 +130,7 @@
       data() {
         return {
           usr_id: 1,
-          fieldData: null,
+          fieldData: [],
           toggles: {
             label: 'On Shelf',
             selected: true,
@@ -157,6 +157,7 @@
                 skuCd: '4139431679614897236',
                 model: 'V2',
                 description: 'good good good good good good good good',
+                brdName: "Xbox",
                 stsCd: 1
               },
               {
@@ -165,6 +166,7 @@
                 skuCd: '4139431679614897236',
                 model: 'V2',
                 description: 'good good good good good good good good',
+                brdName: "Xbox",
                 stsCd: 1
               },
               {
@@ -173,6 +175,7 @@
                 skuCd: '4139431679614897236',
                 model: 'V2',
                 description: 'good good good good good good good good',
+                brdName: "Xbox",
                 stsCd: 1
               },
               {
@@ -181,6 +184,7 @@
                 skuCd: '4139431679614897236',
                 model: 'V2',
                 description: 'good good good good good good good good',
+                brdName: "Xbox",
                 stsCd: 0
               },
               {
@@ -189,6 +193,7 @@
                 skuCd: '4139431679614897236',
                 model: 'V2',
                 description: 'good good good good good good good good',
+                brdName: "Xbox",
                 stsCd: 0
               },
               {
@@ -197,6 +202,7 @@
                 skuCd: '4139431679614897236',
                 model: 'V2',
                 description: 'good good good good good good good good',
+                brdName: "Xbox",
                 stsCd: 1
               },
               {
@@ -205,6 +211,7 @@
                 skuCd: '4139431679614897236',
                 model: 'V2',
                 description: 'good good good good good good good good',
+                brdName: "Xbox",
                 stsCd: 1
               },
               {
@@ -213,6 +220,7 @@
                 skuCd: '4139431679614897236',
                 model: 'V2',
                 description: 'good good good good good good good good',
+                brdName: "Xbox",
                 stsCd: 0
               }
             ]
@@ -220,16 +228,16 @@
         }
       },
       created() {
-        this.fieldData = this.fake_data.data; // to be deleted in the future
+        // this.fieldData = this.fake_data.data; // to be deleted in the future
 
         // get usrId from vuex
-
-        postData = {'brdId': this.usr_id};
-        getProductInfos(this, postData)
+        let data = {'userId': this.$store.state.mvo.userId};
+        getProductInfosByUsr(this, data)
           .then((res)=>{
+            console.log(res);
             if (res.status === 200) {
-              console.log(res.data);
-              this.fieldData = res.data
+              console.log(1234);
+              this.fieldData = res.data.data;
             } else {
               console.log('Get all product info fails. Status=500.')
             }
@@ -263,6 +271,7 @@
         },
         filteredData () {
           if (!this.term || this.term.length < 1) {
+            console.log(this.fieldData);
             return this.fieldData
           }
 
@@ -331,12 +340,12 @@
         },
 
         changeState(row) {
-          console.log(row);
           const idx = row.proId + '';
+          let crr_state = '';
           this.fieldData.forEach(v=>{
             if (v.proId === idx) {
-              console.log(v);
-              v['stsCd'] = v['stsCd'] === 1 ? 0 : 1;
+              v.stsCd = v.stsCd === '1' ? '0' : '1';
+              crr_state = v.stsCd;
             }
           });
 
@@ -352,7 +361,8 @@
           );
 
           changeProductStatus(this, {
-            proId: idx
+            proId: idx,
+            stsCd: crr_state
           }).then((res) => {
             console.log(res.data)
 
@@ -383,7 +393,7 @@
             skuCd: product.skuCd,
             model: product.model,
             description: product.description,
-            stsCd: 0,
+            stsCd: '0',
           };
           this.fieldData.push(basicInfo);
         },

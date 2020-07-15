@@ -9,7 +9,12 @@ axios.defaults.baseURL = 'https://39.106.57.246:4396';
 axios.interceptors.request.use(
   config => {
     if (localStorage.token) { //判断token是否存在
-      config.headers.Authorization = localStorage.token;  //将token设置成请求头
+      if (localStorage.token === 'wallet') {
+        config.headers.Authorization = null;
+        return config;
+      }
+      config.headers.Authorization = "Bearer " + localStorage.token;  //将token设置成请求头
+      console.log(config.headers.Authorization );
     }
     return config;
   },

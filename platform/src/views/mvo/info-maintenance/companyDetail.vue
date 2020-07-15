@@ -51,6 +51,7 @@
             <cube-item
               :img_url="brand.imageUrl"
               :img_title="brand.nameEn"
+              :img_intro="brand.description"
               type="brand"
               :cube_id="brand.brdId"
               usr_id=1
@@ -118,7 +119,7 @@
 
 <script>
   import cubeItem from '../../../components/cubes/cubeItem'
-  import {addCompany, getCompanyInfo} from '../../../api/mvo'
+  import {addCompany, getCompanyInfo, getBrandInfo} from '../../../api/mvo'
   import store from '../../../store/index';
 
   export default {
@@ -227,19 +228,19 @@
               },
             );
           })
+
+
       }
     },
 
     created() {
-      this.brand_list = this.fake_data; // to be deleted...
+      // this.brand_list = this.fake_data; // to be deleted...
       console.log(this.$store.state.mvo.userId)
       getCompanyInfo(this, {
         userId: this.$store.state.mvo.userId
       }).then((res)=>{
+        console.log(res);
         let company_ls = res.data.data;
-        console.log(company_ls);
-        console.log(company_ls[0].manId);
-        console.log(this.$store.state.mvo.manId);
         for (let i = 0; i < company_ls.length; i++) {
           if (company_ls[i].manId + '' === this.$store.state.mvo.manId + '') {
             this.company_info = company_ls[i];
@@ -248,6 +249,15 @@
         }
 
         });
+
+      getBrandInfo(this, {
+        manId: this.$store.state.mvo.manId
+      }).then((res)=>{
+        console.log(res)
+        let brand_ls = res.data.data;
+        console.log(brand_ls);
+        this.brand_list = brand_ls;
+      });
 
     }
   }

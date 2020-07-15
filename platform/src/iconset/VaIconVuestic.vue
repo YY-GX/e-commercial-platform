@@ -40,10 +40,12 @@ export default {
   inject: ['contextConfig'],
   computed: {
     themeGradientId () {
-      return this.contextConfig.invertedColor ? 'CORPORATE' : 'ORIGINAL'
+      return 'CORPORATE'
+      // return this.contextConfig.invertedColor ? 'CORPORATE' : 'ORIGINAL'
     },
     textColor () {
-      return this.contextConfig.invertedColor ? '#6E85E8' : '#E4FF32'
+      return '#6E85E8'
+      // return this.contextConfig.invertedColor ? '#6E85E8' : '#E4FF32'
     },
   },
 }

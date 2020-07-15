@@ -401,12 +401,12 @@
       },
 
       created() {
-        this.company_list = this.fake_data; // to be deleted...
-        console.log(989)
+        // this.company_list = this.fake_data; // to be deleted...
+        console.log(this.$store.state.mvo);
         getCompanyInfo(this, {userId: this.$store.state.mvo.userId})
           .then((res) => {
-            console.log(res)
-
+            console.log(res);
+            this.company_list = res.data.data;
           })
       }
     }

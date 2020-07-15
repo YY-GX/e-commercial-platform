@@ -45,9 +45,13 @@ export default {
           redirectTo: '',
         },
         {
+          name: 'My Wallet',
+          redirectTo: 'wallet-login'
+        },
+        {
           name: 'logout',
           redirectTo: 'login',
-        },
+        }
       ],
     },
   },

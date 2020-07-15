@@ -23,7 +23,6 @@
           <div class="flex lg8 offset-lg1">
             <label class="labels">Brand Name(En): </label>{{ brand_info.nameEn }}<br>
             <label class="labels">Brand Name(Cn): </label>{{ brand_info.nameCn }}<br>
-<!--            <label class="labels">Brand introduction: </label>{{ brand_info.description }}<br>-->
           </div>
 
 
@@ -46,17 +45,15 @@
           :fields="fields"
           :data="filteredData"
           :per-page="parseInt(perPage)"
-          @row-clicked="showProduct"
-          clickable
           class="va-table--hoverable"
         >
           <template slot="marker" slot-scope="props">
-            <va-icon name="fa fa-circle" :color="props.rowData.stsCd === 1 ? '#ba5a31' : '#e59f71'" size="8px" />
+            <va-icon name="fa fa-circle" :color="props.rowData.sts_cd === '1' ? '#ba5a31' : '#e59f71'" size="8px" />
           </template>
 
-          <template slot="stsCd" slot-scope="props">
-            <va-badge :color="props.rowData.stsCd === 1 ? '#ba5a31' : '#e59f71'">
-              {{ props.rowData.stsCd  === 1 ? 'On Shelf' : 'Off Shelf' }}
+          <template slot="sts_cd" slot-scope="props">
+            <va-badge :color="props.rowData.sts_cd === '1' ? '#ba5a31' : '#e59f71'">
+              {{ props.rowData.sts_cd  === '1'  ? 'On Shelf' : 'Off Shelf'  }}
             </va-badge>
           </template>
 
@@ -73,7 +70,7 @@
 
 <script>
   import cubeItem from '../../../components/cubes/cubeItem'
-  import {addCompany, getBrandInfo} from '../../../api/mvo'
+  import {addCompany, getBrandInfo, getProductInfosByBrd} from '../../../api/mvo'
   import store from '../../../store/index';
 
   export default {
@@ -85,7 +82,7 @@
     data() {
       return {
         // table related
-        fieldData: null,
+        fieldData: [],
         perPage: '6',
 
         // basic info
@@ -171,7 +168,7 @@
           name: 'name',
           title: 'Product Name',
         }, {
-          name: '__slot:stsCd',
+          name: '__slot:sts_cd',
           title: this.$t('tables.headings.status'),
         }, {
           name: 'description',
@@ -196,19 +193,31 @@
     methods: {
       jump() {
         this.$router.push({name: 'product-main'})
-      }
+      },
+
+      // showState(row) {
+      //   console.log(row);
+      //   console.log(row.stsCd);
+      //   console.log(row.stsCd === "1");
+      //   if (row.stsCd === "1") {
+      //     return 'On Shelf';
+      //   } else {
+      //     return 'Off Shelf';
+      //   }
+      // }
     },
 
+
+
     created() {
-      this.fieldData = this.fake_data.data;
+      // this.fieldData = this.fake_data.data;
       console.log(this.fieldData);
       console.log(this.$store.state.mvo.manId)
       getBrandInfo(this, {
         manId: this.$store.state.mvo.manId
       }).then((res)=>{
+        console.log(res);
         let brand_ls = res.data.data;
-        console.log(brand_ls);
-        console.log(this.$store.state.mvo.brdId)
         for (let i = 0; i < brand_ls.length; i++) {
           if (brand_ls[i].brdId + '' === this.$store.state.mvo.brdId + '') {
             this.brand_info = brand_ls[i];
@@ -216,6 +225,13 @@
           }
         }
       });
+
+      getProductInfosByBrd(this, {
+        brdId: this.$store.state.mvo.brdId
+      }).then((res) => {
+        console.log(res);
+        this.fieldData = res.data.data;
+      })
     }
   }
 </script>

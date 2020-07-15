@@ -18,6 +18,7 @@ import '../registerServiceWorker'
 
 import axios from 'axios'
 import VueAxios from 'vue-axios'
+import http from '../utils/httpAxios'
 
 import { consoleBuildInfo } from 'vue-cli-plugin-build-info/plugin'
 
@@ -25,7 +26,7 @@ consoleBuildInfo();
 
 axios.defaults.withCredentials = true;
 
-Vue.prototype.$http= axios;
+Vue.prototype.$http= http;
 
 Vue.use(VueAxios, axios);
 Vue.use(VuesticPlugin)

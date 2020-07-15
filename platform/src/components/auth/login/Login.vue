@@ -64,9 +64,11 @@ export default {
     }
   },
   created() {
+    console.log('created');
     getCode(this).then((res)=>{
       console.log(res);
       this.codeUrl = 'data:image/png;base64,' + btoa(new Uint8Array(res.data).reduce((data, byte) => data + String.fromCharCode(byte), ''))
+      console.log(this.codeUrl );
     })
   },
 
@@ -77,7 +79,7 @@ export default {
   },
   methods: {
     onsubmit () {
-      console.log('go')
+      console.log('go');
       this.usrErrors = this.username ? [] : ['Username is required'];
       this.passwordErrors = this.password ? [] : ['Password is required'];
       this.codeErrors = this.code ? [] : ['Code is required'];
@@ -94,6 +96,9 @@ export default {
       login(this, postData)
         .then(res => {
           console.log(res);
+          let storeData = res.data.data;
+          this.$store.commit("loginChange", storeData);
+          console.log(this.$store.state.mvo.permissions);
           if (res.status == 200) {
             console.log('login successful!');
             let getTokenData = {
@@ -104,26 +109,25 @@ export default {
               'password': this.password,
             };
 
-            getToken(this, getTokenData)
-              .then((res)=>{
-                console.log(res);
+            // getToken(this, getTokenData)
+            //   .then((res)=>{
+            //     console.log(res);
+            //
+            //   });
 
-              });
-
-            window.localStorage["token"] = JSON.stringify(res.data.data.token);
+            // window.localStorage["token"] = JSON.stringify(res.data.data.token);
           } else {
 
           }
       });
 
-      // window.localStorage["token"] = 'ThisIsAToken'; // Delete in future
+      window.localStorage["token"] = 'd1e9b21c-7606-42de-b614-182ba5d31847'; // Delete in future
 
-      // this.$router.push({ name: 'dashboard' })
+      this.$router.push({ name: 'dashboard' })
     },
 
     change_code() {
       getCode(this).then((res)=>{
-
         console.log(res);
         this.codeUrl = 'data:image/png;base64,' + btoa(new Uint8Array(res.data).reduce((data, byte) => data + String.fromCharCode(byte), ''))
       })

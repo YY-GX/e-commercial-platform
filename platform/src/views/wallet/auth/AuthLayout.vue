@@ -1,5 +1,5 @@
 <template>
-  <div class="auth-layout row align-content--center">
+  <div class="auth-layout-wallet row align-content--center">
 
     <div class="flex xs12 pa-3 flex-center">
       <router-link class="py-5 flex-center" to="/">
@@ -31,15 +31,15 @@
 </template>
 
 <script>
-import VaIconVuestic from '../../iconset/VaIconVuestic'
+import VaIconVuestic from '../../../iconset/VaIconVuestic'
 
 const tabs = [
-  'login',
-  'signup',
-]
+  'wallet-login',
+  'wallet-signup',
+];
 
 export default {
-  name: 'AuthLayout',
+  name: 'WalletAuthLayout',
   components: { VaIconVuestic },
   data () {
     return {
@@ -61,9 +61,9 @@ export default {
 </script>
 
 <style lang="scss">
-.auth-layout {
+.auth-layout-wallet {
   min-height: 100vh;
-  background-image: linear-gradient(to right, #0e4ac4, #002c85);
+  background-image: linear-gradient(to right, #ffba08, #faa307);
 
   &__card {
     width: 100%;

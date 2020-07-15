@@ -93,7 +93,7 @@ export default {
   },
   data () {
     return {
-      userName: 'Vasili S',
+      userName: this.$store.state.mvo.username,
     }
   },
   computed: {
