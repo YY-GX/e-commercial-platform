@@ -405,7 +405,9 @@
         console.log(this.$store.state.mvo);
         getCompanyInfo(this, {userId: this.$store.state.mvo.userId})
           .then((res) => {
+            console.log(123)
             console.log(res);
+            console.log(123)
             this.company_list = res.data.data;
           })
       }

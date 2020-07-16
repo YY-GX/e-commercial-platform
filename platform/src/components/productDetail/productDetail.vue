@@ -1,8 +1,8 @@
 <template>
-    <div class="row">
+    <div class="row" style="width: 500px;">
 
       <div class="container__image flex xs12 md5">
-        <img :src=img_url alt="Product Image" class="img">
+        <img :src=img_url alt="Product Image" class="img" style="width: 100%; height: 100%;">
       </div>
 
       <div class="container__text flex xs12 md6 offset--md1">
@@ -74,17 +74,17 @@
         return {
           pro_id: this.product_detail.pro_id,
 
-          img_url: this.product_detail.imageUrl,
-          name: this.product_detail.name,
-          skuCd: this.product_detail.skuCd,
+          img_url: this.product_detail.image_url,
+          name: this.product_detail.NAME,
+          skuCd: this.product_detail.sku_cd,
           model: this.product_detail.model,
           width: this.product_detail.width,
           height: this.product_detail.height,
           weight: this.product_detail.weight,
-          retailPrice: this.product_detail.retailPrice,
-          minRetailPrice: this.product_detail.minRetailPrice,
-          warrantyDay: this.product_detail.warrantyDay,
-          replenishmentPeriod: this.product_detail.replenishmentPeriod,
+          retailPrice: this.product_detail.retail_price,
+          minRetailPrice: this.product_detail.min_retail_price,
+          warrantyDay: this.product_detail.warranty_day,
+          replenishmentPeriod: this.product_detail.replenishment_period,
           warranty: this.product_detail.warranty,
 
           num_pro: null,

@@ -283,29 +283,30 @@
       methods: {
         showProduct(row) {
           console.log(row);
-          this.product_detail = {
-            'pro_id': row.proId,
-            'imageUrl': "https://picsum.photos/300/200/?image=1043",
-            'name': 'fengjinghua',
-            'skuCd': '1e212312321232',
-            'model': 'V2',
-            'width': 1,
-            'height': 2,
-            'length': 3,
-            'weight': 10,
-            'retailPrice':  12,
-            'minRetailPrice': 10,
-            'warrantyDay': 60,
-            'replenishmentPeriod': 10,
-            'warranty': 'Never Never Never Never Never Never Never ',
-          }; // delete in the future
+          // this.product_detail = {
+          //   'pro_id': row.proId,
+          //   'imageUrl': "https://picsum.photos/300/200/?image=1043",
+          //   'name': 'fengjinghua',
+          //   'skuCd': '1e212312321232',
+          //   'model': 'V2',
+          //   'width': 1,
+          //   'height': 2,
+          //   'length': 3,
+          //   'weight': 10,
+          //   'retailPrice':  12,
+          //   'minRetailPrice': 10,
+          //   'warrantyDay': 60,
+          //   'replenishmentPeriod': 10,
+          //   'warranty': 'Never Never Never Never Never Never Never ',
+          // }; // delete in the future
           this.showProductDetail = true;
 
           getProductDetail(this, {
             proId: row.proId
           }).then((result)=>{
             console.log(result);
-            this.product_detail = result.data;
+            this.product_detail = result.data.data[0];
+            console.log(this.product_detail)
           });
         },
 

@@ -26,7 +26,7 @@ consoleBuildInfo();
 
 axios.defaults.withCredentials = true;
 
-Vue.prototype.$http= http;
+Vue.prototype.$http = http;
 
 Vue.use(VueAxios, axios);
 Vue.use(VuesticPlugin)

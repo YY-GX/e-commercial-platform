@@ -7,6 +7,12 @@
 <script>
 export default {
   name: 'app',
+  mounted: function () {
+    //此方法刷新页面时也会执行
+    window.addEventListener('beforeunload',()=>{
+      localStorage.removeItem('token');
+    });
+  },
   data () {
     return {
       // Temporary config for 2.1.

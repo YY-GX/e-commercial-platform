@@ -1,6 +1,6 @@
 const state = {
   userId: 3,
-  manId: 5,
+  manId: 1,
   brdId: 1,
   role: 'mvo',
   username: 'cui',

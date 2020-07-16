@@ -3,8 +3,6 @@
 
     <div class="flex lg12">
 
-
-
       <va-card
         stripe="info"
         style="margin-bottom: 2vh;"
@@ -293,9 +291,7 @@
   }
 
   .img {
-    max-width: 250px;
-    max-height: 200px;
-    min-width: 100px;
-    min-height: 80px;
+    width: 100%;
+    height: 100%;
   }
 </style>

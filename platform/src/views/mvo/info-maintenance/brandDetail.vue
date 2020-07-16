@@ -266,9 +266,7 @@
   }
 
   .img {
-    max-width: 250px;
-    max-height: 200px;
-    min-width: 100px;
-    min-height: 80px;
+    width: 100%;
+    height: 100%;
   }
 </style>

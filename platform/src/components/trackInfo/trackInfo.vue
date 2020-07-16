@@ -93,6 +93,7 @@
 </template>
 
 <script>
+  import {getTracking} from '../../api/mvo'
     export default {
       name: "track-info",
       props: {
@@ -138,13 +139,13 @@
       },
       computed: {
         getState() {
-          if (this.info.deliverySt === '1') {
+          if (this.info.deliverySts === '1') {
             return 'Synchronized'
-          } else if (this.info.deliverySt === '2') {
+          } else if (this.info.deliverySts === '2') {
             return 'Out of stock'
-          } else if (this.info.deliverySt === '3') {
+          } else if (this.info.deliverySts === '3') {
             return 'Shipping'
-          } else if (this.info.deliverySt === '4') {
+          } else if (this.info.deliverySts === '4') {
             return 'Fulfilled'
           }
         },
@@ -154,12 +155,21 @@
             pushDate: '2020-07-06',
             trackNoDate: '2020-07-07',
             fulfillmentDate: '2020-07-08',
-            deliverySt: '4',
+            deliverySts: '4',
             trackingNumber: 'S123413879832684237684',
             wspName: 'SF Holding',
         }; // to be deleted
 
         this.info = fake_info;
+
+        getTracking(this, {
+          saoId: this.saoId
+        }).then((res) => {
+          console.log(res);
+          this.info = res.data.data;
+        })
+
+
       }
     }
 </script>

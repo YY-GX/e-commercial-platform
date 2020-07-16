@@ -106,6 +106,13 @@ export function getOrderList(obj, data) {
   })
 }
 
+// Get tracking information
+export function getTracking(obj, data) {
+  return obj.$http.get(base_url + '/order/detail', {
+    params: data
+  })
+}
+
 // ship order
 export function shipOrder(obj, data) {
   return obj.$http.post(base_url + '/order/ship', data)
@@ -133,6 +140,9 @@ export function addCompany(obj, data) {
 
 // Get company information
 export function getCompanyInfo(obj, data) {
+  console.log(obj.$http.get(base_url + '/info/company/get', {
+    params: data
+  }))
   return obj.$http.get(base_url + '/info/company/get', {
     params: data
   })

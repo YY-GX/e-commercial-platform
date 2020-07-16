@@ -93,6 +93,8 @@ export default {
         code: this.code
       };
 
+      window.localStorage["token"] = '4142a7f9-c3a6-4d55-9f04-eff6be61ec8f'; // Delete in future
+
       login(this, postData)
         .then(res => {
           console.log(res);
@@ -121,7 +123,7 @@ export default {
           }
       });
 
-      window.localStorage["token"] = 'd1e9b21c-7606-42de-b614-182ba5d31847'; // Delete in future
+      window.localStorage["token"] = '4142a7f9-c3a6-4d55-9f04-eff6be61ec8f'; // Delete in future
 
       this.$router.push({ name: 'dashboard' })
     },

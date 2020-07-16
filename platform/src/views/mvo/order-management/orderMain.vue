@@ -313,10 +313,10 @@
         },
       },
       created() {
-        this.fieldData = this.fake_data; // to be deleted in the future
+        // this.fieldData = this.fake_data; // to be deleted in the future
 
         let usrId = this.$store.state.mvo.userId;
-        let role_ = this.$store.state.mvo.role;
+        let role_ = this.$store.state.mvo.role === 'mvo' ? 1 : 0;
         let data = {
           id: usrId,
           operation: role_
@@ -324,9 +324,9 @@
         console.log(data);
         getOrderList(this, data)
           .then((res)=>{
-            console.log(res.data);
+            console.log(res);
             if (res.status === 200) {
-              this.fieldData = res.data;
+              this.fieldData = res.data.data;
             } else {
               console.log('Return 500!')
             }
