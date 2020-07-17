@@ -19,7 +19,7 @@ export default {
       contextConfig: {
         gradient: true,
         shadow: 'lg', // 3 states: 'sm', 'lg', undefined (no shadow).
-        invertedColor: false,
+        invertedColor: true,
       },
     }
   },

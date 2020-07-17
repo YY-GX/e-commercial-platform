@@ -1,5 +1,5 @@
 const state = {
-  userId: 3,
+  userId: 1,
   manId: 1,
   brdId: 1,
   role: 'mvo',
@@ -25,7 +25,16 @@ const mutations = {
     state.userId = data.userId;
     state.phone = data.phone;
     state.email = data.email;
-  }
+  },
+
+  mvoLogout: function (state) {
+    state.username = null;
+    state.permissions = null;
+    state.role = null;
+    state.userId = null;
+    state.phone = null;
+    state.email = null;
+  },
 };
 
 export default {

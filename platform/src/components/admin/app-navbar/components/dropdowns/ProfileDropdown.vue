@@ -15,14 +15,15 @@
         :name="`fa ${isShown ? 'fa-angle-up' :'fa-angle-down'}`"
       />
     </span>
-    <div class="profile-dropdown__content pl-4 pr-4 pt-2 pb-2">
+    <div class="profile-dropdown__content pl-4 pr-4 pt-2 pb-2" style="z-index: 100000;">
       <router-link
         v-for="option in options"
         :key="option.name"
         :to="{name: option.redirectTo}"
+        @click="Fn(option.method)"
         class="profile-dropdown__item pt-1 pb-1 mt-2 mb-2"
       >
-        {{ $t(`user.${option.name}`) }}
+        {{ option.name }}
       </router-link>
     </div>
   </va-dropdown>
@@ -41,7 +42,7 @@ export default {
       type: Array,
       default: () => [
         {
-          name: 'profile',
+          name: 'My Profile',
           redirectTo: '',
         },
         {
@@ -49,12 +50,23 @@ export default {
           redirectTo: 'wallet-login'
         },
         {
-          name: 'logout',
+          name: 'Logout',
           redirectTo: 'login',
+          method: 'logout'
         }
       ],
     },
   },
+  methods: {
+    Fn(par) {
+      if (par === 'logout') {
+        console.log('Log out');
+        localStorage.token = null;
+        this.$store.commit('basicLogout');
+        this.$store.commit('mvoLogout');
+      }
+    }
+  }
 }
 </script>
 

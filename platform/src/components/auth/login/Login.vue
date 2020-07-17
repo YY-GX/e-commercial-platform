@@ -123,7 +123,7 @@ export default {
           }
       });
 
-      window.localStorage["token"] = '4142a7f9-c3a6-4d55-9f04-eff6be61ec8f'; // Delete in future
+      window.localStorage["token"] = '5bea2b32-38c1-436c-828d-595c68b2f172'; // Delete in future
 
       this.$router.push({ name: 'dashboard' })
     },

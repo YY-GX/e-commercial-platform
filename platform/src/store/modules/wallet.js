@@ -14,6 +14,13 @@ const mutations = {
     state.accountType = data.accountType;
   },
 
+  walletLogout: function(state){
+    state.walletId = null;
+    state.username = null;
+    state.usrId = null;
+    state.accountType = null;
+  },
+
 
 };
 

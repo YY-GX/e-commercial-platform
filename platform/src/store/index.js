@@ -3,6 +3,7 @@ import Vuex from 'vuex'
 import VuexI18n from 'vuex-i18n' // load vuex i18n module
 import mvo from './modules/mvo'
 import wallet from './modules/wallet'
+import basic from './modules/basic'
 
 import * as getters from './getters'
 
@@ -14,6 +15,7 @@ const store = new Vuex.Store({
   modules: {
     mvo,
     wallet,
+    basic
   },
   state: {},
   mutations: {},

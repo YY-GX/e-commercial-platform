@@ -1,8 +1,8 @@
 <template>
-    <div class="row" style="width: 500px;">
+    <div class="row" style="width: 600px;">
 
       <div class="container__image flex xs12 md5">
-        <img :src=img_url alt="Product Image" class="img" style="width: 100%; height: 100%;">
+        <img :src=img_url alt="Product Image" class="img" style="width: 100%; height: 70%;">
       </div>
 
       <div class="container__text flex xs12 md6 offset--md1">

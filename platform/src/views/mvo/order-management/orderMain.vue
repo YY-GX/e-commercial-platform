@@ -72,7 +72,7 @@
         okText=" Confirm "
         :cancelText=" $t('modal.cancel') ">
         <slot>
-          <track-info v-on:close="close"/>
+          <track-info v-on:close="close" :saoId="saoId"/>
         </slot>
       </va-modal>
     </div>
@@ -90,12 +90,13 @@
       },
       data() {
         return {
-          fieldData: null,
+          fieldData: [],
           term: '',
           is_ship: false,
           is_cancel: false,
 
           showTrackInfo: false,
+          saoId: null,
 
 
           perPage: '10',
@@ -190,6 +191,7 @@
 
         },
         track(row) {
+          this.saoId = row.saoId;
           this.showTrackInfo = true;
 
         },
@@ -274,7 +276,6 @@
         close(par) {
           this.showTrackInfo = false;
         }
-
       },
       computed: {
         fields () {
@@ -314,7 +315,6 @@
       },
       created() {
         // this.fieldData = this.fake_data; // to be deleted in the future
-
         let usrId = this.$store.state.mvo.userId;
         let role_ = this.$store.state.mvo.role === 'mvo' ? 1 : 0;
         let data = {
@@ -330,7 +330,6 @@
             } else {
               console.log('Return 500!')
             }
-
           })
       }
     }

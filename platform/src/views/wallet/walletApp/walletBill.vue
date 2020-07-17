@@ -227,7 +227,8 @@
         },
 
         finish() {
-          this.$router.push({ name: 'wallet-login' })
+          this.$store.commit('walletLogout');
+          this.$router.push({ name: 'wallet-login' });
         },
 
         showStatus(row) {
