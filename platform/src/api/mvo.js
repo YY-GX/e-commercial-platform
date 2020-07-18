@@ -17,26 +17,14 @@ export function getCode(obj) {
 
 // Get token
 export function getToken(obj, data) {
-  // const instance = obj.$http.create({
-  //   httpsAgent: new https.Agent({
-  //     rejectUnauthorized: false
-  //   })
-  // });
-  // console.log(instance);
-  // console.log(instance.post(base_url + '/oauth/token', data));
-  console.log(obj.$http.post(base_url + '/oauth/token', data,{
-    httpsAgent: new https.Agent({
-      rejectUnauthorized: false
-    })
-  }));
-  const httpsAgent = new https.Agent({
-    rejectUnauthorized: false, // (NOTE: this will disable client verification)
-    cert: fs.readFileSync("./usercert.pem"),
-    key: fs.readFileSync("./key.pem"),
-    passphrase: "YYY"
-  })
-  return obj.$http.post(base_url + '/oauth/token', data,{ httpsAgent })
+  return obj.tokenGet.post(base_url + '/oauth/token', data);
 }
+
+// Sign up
+export function register(obj, data) {
+  return obj.$http.post(base_url + '/user/register', data);
+}
+
 
 /*
 * Author: Yue Yang
@@ -133,9 +121,14 @@ export function deleteBrand(obj, data) {
   return obj.$http.post(base_url + '/info/brand/delete', data)
 }
 
+// Add brand
+export function addBrand(obj, data) {
+  return obj.$http.post(base_url + '/info/brand/add', data)
+}
+
 // Add company
 export function addCompany(obj, data) {
-  return obj.$http.post(base_url + '/info/brand/add', data)
+  return obj.$http.post(base_url + '/info/company/add', data)
 }
 
 // Get company information
@@ -153,4 +146,9 @@ export function getBrandInfo(obj, data) {
   return obj.$http.get(base_url + '/info/brand/get', {
     params: data
   })
+}
+
+// upload image
+export function uploadImage(obj, data) {
+  return obj.imageUpload.post(base_url + '/pro/mvo/product/image/upload', data);
 }

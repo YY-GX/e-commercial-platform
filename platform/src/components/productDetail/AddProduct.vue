@@ -14,7 +14,8 @@
                 label="company"
                 v-model="searchableSelectCompany"
                 searchable
-                textBy="description"
+                textBy="nameEn"
+                key-by="manId"
                 :options="companyOptions"
               />
             </div>
@@ -24,7 +25,8 @@
                 label="brand"
                 v-model="searchableSelectBrand"
                 searchable
-                textBy="description"
+                textBy="nameEn"
+                key-by="brdId"
                 :options="brandOptions"
               />
             </div>
@@ -177,7 +179,7 @@
                 type="gallery"
                 file-types=".png, .jpg, .jpeg, .gif"
                 dropzone
-                v-model="imgUrl"
+                v-model="imgArr"
               />
             </div>
 
@@ -267,7 +269,7 @@
 </template>
 
 <script>
-  import {addProductApi} from '../../api/mvo'
+  import {addProductApi,getCompanyInfo, getBrandInfo, uploadImage} from '../../api/mvo'
     export default {
       name: "add-product",
       data() {
@@ -288,7 +290,7 @@
             replenishmentPeriod: '',
             warranty: '',
             categoryName: '',
-            imgUrl: '',
+            imgArr: [],
 
             brdIdErrors: [],
             manIdErrors: [],
@@ -324,20 +326,7 @@
                 description: 'Company3',
               },
             ],
-            brandOptions: [
-              {
-                id: 1,
-                description: 'brand1',
-              },
-              {
-                id: 2,
-                description: 'brand2',
-              },
-              {
-                id: 3,
-                description: 'brand3',
-              },
-            ],
+            brandOptions: []
 
           }
       },
@@ -345,7 +334,83 @@
         companyList: Object,
         brandList: Object,
       },
+      created() {
+        getCompanyInfo(this, {
+          userId: this.$store.state.mvo.userId
+        }).then((res) => {
+          console.log(res);
+          this.companyOptions = res.data.data;
+        })
+      },
+      watch: {
+        searchableSelectCompany: function (val, oldVal) {
+          console.log('new: %s, old: %s', val, oldVal);
+          getBrandInfo(this, {
+            manId: this.searchableSelectCompany.manId
+          }).then((res) => {
+            console.log(res);
+            this.brandOptions = res.data.data;
+          })
+        },
+
+        imgArr : { //当storePicture数组变化（用户新上传时）
+          handler : function(val, oldVal){
+            if(val.length == 0){ //无文件
+              return;
+            }
+            else{
+              var index = val.length - 1;//最新选择的文件
+              var fileName = val[index].name;
+              var fileSplit = fileName.split(".");
+              var fileType = fileSplit[fileSplit.length - 1];
+              fileType = fileType.toLowerCase();
+              if(fileType === "png"||fileType === "jpg" || fileType === "jpeg"){
+                console.log(fileName);
+                var formData = new FormData();
+                formData.append("file",val[index]);
+                formData.append("proId",this.strId);
+                console.log(uploadImage(this,formData));
+                uploadImage(this,formData).then(
+                  res => {
+                    console.log(res);
+                    if(res.status == 200){
+                      this.storeImageSrc = res.data.data;
+                    }
+                    else{
+                      console.log(res.message)
+                    }
+                  }
+                )
+              }
+              else{
+                console.log(fileType);
+                this.showToast(
+                  "file is not an image, please choose an image file",
+                  {
+                    icon: 'fa-exclamation',
+                    position: 'top-right',
+                    duration: 2500,
+                    fullWidth: false,
+                  }
+                );
+                this.storePicture = [];
+              }
+            }
+          },
+          deep : true
+        }
+
+      },
       computed: {
+        updateBrandLs() {
+          console.log(this.searchableSelectCompany);
+          getBrandInfo(this, {
+            manId: this.searchableSelectCompany.manId
+          }).then((res) => {
+            console.log(res);
+            return res.data.data;
+          })
+        },
         formReady () {
           return !(
             this.brdIdErrors.length ||
@@ -393,8 +458,8 @@
           }
 
           let postData = {
-            brdId: this.brdId,
-            manId: this.manId,
+            brdId: this.searchableSelectBrand.brdId,
+            manId: this.searchableSelectCompany.manId,
             name: this.name,
             skuCd: this.skuCd,
             model: this.model,
@@ -410,6 +475,9 @@
             warranty: this.warranty,
             categoryName: this.categoryName,
           };
+
+          console.log(postData);
+
           this.$emit('addPro', postData);
 
           addProductApi(this, postData)

@@ -299,13 +299,14 @@
           //   'replenishmentPeriod': 10,
           //   'warranty': 'Never Never Never Never Never Never Never ',
           // }; // delete in the future
-          this.showProductDetail = true;
+
 
           getProductDetail(this, {
             proId: row.proId
           }).then((result)=>{
             console.log(result);
             this.product_detail = result.data.data[0];
+            this.showProductDetail = true;
             console.log(this.product_detail)
           });
         },

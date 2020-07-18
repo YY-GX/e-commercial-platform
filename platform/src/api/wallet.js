@@ -35,3 +35,13 @@ export function getTransaction(obj, data) {
 export function editBasicInfo(obj, data) {
   return obj.$http.post(base_url + '/wallet/info/update', data)
 }
+
+// recharge
+export function recharge(obj, data) {
+  return obj.$http.post(base_url + '/wallet/recharge', data)
+}
+
+// withdraw
+export function withdraw(obj, data) {
+  return obj.$http.post(base_url + '/wallet/withdraw', data)
+}

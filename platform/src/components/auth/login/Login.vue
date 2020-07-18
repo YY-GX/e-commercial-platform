@@ -93,7 +93,7 @@ export default {
         code: this.code
       };
 
-      window.localStorage["token"] = '4142a7f9-c3a6-4d55-9f04-eff6be61ec8f'; // Delete in future
+      // window.localStorage["token"] = '4142a7f9-c3a6-4d55-9f04-eff6be61ec8f'; // Delete in future
 
       login(this, postData)
         .then(res => {
@@ -103,29 +103,35 @@ export default {
           console.log(this.$store.state.mvo.permissions);
           if (res.status == 200) {
             console.log('login successful!');
-            let getTokenData = {
-              'grant_type': 'password',
-              'client_id': 'app',
-              'client_secret': 'app',
-              'username': this.username,
-              'password': this.password,
-            };
+            // let getTokenData = {
+            //   'grant_type': 'password',
+            //   'client_id': 'app',
+            //   'client_secret': 'app',
+            //   'username': this.username,
+            //   'password': this.password,
+            // };
+            var formData = new FormData();
+            formData.append("grant_type","password");
+            formData.append('client_id', 'app');
+            formData.append('client_secret', 'app');
+            formData.append('username',this.username);
+            formData.append('password', this.password);
 
-            // getToken(this, getTokenData)
-            //   .then((res)=>{
-            //     console.log(res);
-            //
-            //   });
+            getToken(this, formData)
+              .then((res)=>{
+                console.log(res);
+                window.localStorage["token"] = res.data.access_token;
+                this.$router.push({ name: 'dashboard' });
+              }).catch(err=>{console.log(err)});
 
-            // window.localStorage["token"] = JSON.stringify(res.data.data.token);
           } else {
-
+            console.log(res.message);
           }
       });
 
-      window.localStorage["token"] = '5bea2b32-38c1-436c-828d-595c68b2f172'; // Delete in future
+      // window.localStorage["token"] = '5bea2b32-38c1-436c-828d-595c68b2f172'; // Delete in future
 
-      this.$router.push({ name: 'dashboard' })
+      // this.$router.push({ name: 'dashboard' })
     },
 
     change_code() {

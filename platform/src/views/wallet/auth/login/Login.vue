@@ -69,13 +69,23 @@ export default {
       login(this, postData)
         .then(res => {
           console.log(res);
-          let storeData = res.data.data;
-          this.$store.commit("walletLogin", storeData);
-          if (res.status == 200) {
+          if (res.data.status === 200) {
             console.log('login successful!');
+            let storeData = res.data.data;
+            this.$store.commit("walletLogin", storeData);
             this.$router.push({ name: 'wallet-bill' })
           } else {
             console.log('Status not 200.');
+            this.showToast(
+              "Wrong username or password!",
+              {
+                theme: 'danger',
+                icon: 'fa-warning',
+                position: 'top-right',
+                duration: 3000,
+                fullWidth: false,
+              },
+            );
           }
       });
 

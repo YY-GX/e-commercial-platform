@@ -70,7 +70,7 @@
 
 <script>
   import cubeItem from '../../../components/cubes/cubeItem'
-  import {addCompany, getBrandInfo, getProductInfosByBrd} from '../../../api/mvo'
+  import {addBrand, addCompany, getBrandInfo, getProductInfosByBrd} from '../../../api/mvo'
   import store from '../../../store/index';
 
   export default {
@@ -212,7 +212,7 @@
     created() {
       // this.fieldData = this.fake_data.data;
       console.log(this.fieldData);
-      console.log(this.$store.state.mvo.manId)
+      console.log(this.$store.state.mvo.manId);
       getBrandInfo(this, {
         manId: this.$store.state.mvo.manId
       }).then((res)=>{

@@ -22,6 +22,20 @@
           </div>
         </div>
 
+        <div class="row">
+          <div class="flex lg1" style="margin-left: 70%;">
+            <va-button @click="withdraw" small>
+              Withdraw
+            </va-button>
+          </div>
+          <div class="flex lg1" style="margin-left: 5%;">
+            <va-button @click="recharge" small>
+              Recharge
+            </va-button>
+          </div>
+        </div>
+
+
       </va-card>
 
       <va-card
@@ -111,12 +125,74 @@
       </va-modal>
 
 
+      <va-modal
+        @ok="onOkW"
+        v-model="showWithdraw"
+        size="large"
+        title=" Withdraw"
+        okText=" Confirm "
+        :cancelText=" $t('modal.cancel')"
+      >
+        <slot>
+          <!--   nameEn & nameCn   -->
+          <div class="layout gutter--md fluid">
+            <div class="row">
+
+              <div class="flex lg12">
+                <va-input
+                  v-model="withdrawMoney"
+                  type="text"
+                  label="Withdraw money"
+                  :error="!!withdrawMoneyErrors.length"
+                  :error-messages="withdrawMoneyErrors"
+                />
+              </div>
+
+            </div>
+          </div>
+
+        </slot>
+      </va-modal>
+
+
+
+      <va-modal
+        @ok="onOkR"
+        v-model="showRecharge"
+        size="large"
+        title=" Recharge "
+        okText=" Confirm "
+        :cancelText=" $t('modal.cancel')"
+      >
+        <slot>
+          <!--   nameEn & nameCn   -->
+          <div class="layout gutter--md fluid">
+            <div class="row">
+
+              <div class="flex lg12">
+                <va-input
+                  v-model="rechargeMoney"
+                  type="text"
+                  label="Recharge Money"
+                  :error="!!rechargeMoneyError.length"
+                  :error-messages="rechargeMoneyError"
+                />
+              </div>
+
+            </div>
+          </div>
+
+        </slot>
+      </va-modal>
+
+
+
 
     </div>
 </template>
 
 <script>
-  import {getBasicInfo, getTransaction, editBasicInfo} from '../../../api/wallet'
+  import {getBasicInfo, getTransaction, editBasicInfo, withdraw, recharge} from '../../../api/wallet'
     export default {
       name: "wallet-bill",
       data() {
@@ -136,6 +212,13 @@
             fieldData: [],
             perPage: '6',
 
+            // withdraw & recharge
+            withdrawMoney: 0,
+            rechargeMoney: 0,
+            showRecharge: false,
+            showWithdraw: false,
+            rechargeMoneyError: [],
+            withdrawMoneyErrors: []
 
           }
       },
@@ -194,11 +277,86 @@
         formReady () {
           return !this.pwdErrors.length && !this.confirmPwdError.length
         },
+
+        withdrawReady() {
+          return !this.withdrawMoneyErrors.length
+        },
+
+        rechargeReady() {
+          return !this.rechargeMoneyError.length
+        }
       },
 
       methods: {
         edit() {
           this.showChangePwd = true;
+        },
+
+        recharge() {
+          this.showRecharge = true;
+        },
+
+        withdraw() {
+          this.showWithdraw= true;
+        },
+
+        onOkW() {
+          this.withdrawMoneyErrors = this.withdrawMoney ? [] : ['Withdraw money is required'];
+
+          if (!this.withdrawReady) {
+            this.showWithdraw = true;
+            return;
+          }
+
+          withdraw(this, {
+            walletId: this.$store.state.wallet.walletId,
+            money: this.withdrawMoney
+          }).then((res) => {
+            console.log(res);
+            this.showWithdraw= false;
+
+            if (res.data.data) {
+              this.info = res.data.data;
+              this.currency = res.data.data.currency;
+            }
+
+            getBasicInfo(this, {walletId: this.$store.state.wallet.walletId})
+              .then((res) => {
+                console.log(res);
+                this.info = res.data.data;
+                this.currency = res.data.data.currency;
+              });
+
+          })
+        },
+
+        onOkR() {
+          this.rechargeMoneyError = this.rechargeMoney ? [] : ['Withdraw money is required'];
+
+          if (!this.rechargeReady) {
+            this.showRecharge = true;
+            return;
+          }
+
+          recharge(this, {
+            walletId: this.$store.state.wallet.walletId,
+            money: this.rechargeMoney
+          }).then((res) => {
+            console.log(res);
+            this.showRecharge = false;
+            if (res.data.data) {
+              this.info = res.data.data;
+              this.currency = res.data.data.currency;
+            }
+
+            getBasicInfo(this, {walletId: this.$store.state.wallet.walletId})
+              .then((res) => {
+                console.log(res);
+                this.info = res.data.data;
+                this.currency = res.data.data.currency;
+              });
+
+          })
         },
 
         onOk() {

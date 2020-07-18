@@ -90,7 +90,7 @@
               <va-input
                 v-model="add_brand.nameEn"
                 type="text"
-                label="Company Name (English)"
+                label="Brand Name (English)"
                 :error="!!nameEnErrors.length"
                 :error-messages="nameEnErrors"
               />
@@ -100,9 +100,26 @@
               <va-input
                 v-model="add_brand.nameCn"
                 type="text"
-                label="Company Name (Chinese)"
+                label="Brand Name (Chinese)"
                 :error="!!nameCnErrors.length"
                 :error-messages="nameCnErrors"
+              />
+            </div>
+
+          </div>
+        </div>
+
+
+        <div class="layout gutter--md fluid">
+          <div class="row">
+
+            <div class="flex lg12">
+              <va-input
+                v-model="add_brand.description"
+                type="textarea"
+                label="Description"
+                :error="!!descriptionErrors.length"
+                :error-messages="descriptionErrors"
               />
             </div>
 
@@ -117,7 +134,7 @@
 
 <script>
   import cubeItem from '../../../components/cubes/cubeItem'
-  import {addCompany, getCompanyInfo, getBrandInfo} from '../../../api/mvo'
+  import {addBrand, addCompany, getCompanyInfo, getBrandInfo} from '../../../api/mvo'
   import store from '../../../store/index';
 
   export default {
@@ -147,10 +164,12 @@
           manId: '',
           nameEn: '',
           nameCn: '',
+          description: '',
         },
 
         nameEnErrors: [],
         nameCnErrors: [],
+        descriptionErrors: [],
 
         brand_list: null,
         fake_data: [
@@ -189,7 +208,7 @@
     },
     computed: {
       formReady () {
-        return !this.nameEnErrors.length && !this.nameCnErrors.length
+        return !this.nameEnErrors.length && !this.nameCnErrors.length && !this.descriptionErrors.length
       },
     },
 
@@ -201,6 +220,7 @@
       onOk() {
         this.nameEnErrors = this.add_brand.nameEn ? [] : ['English name is required'];
         this.nameCnErrors = this.add_brand.nameCn ? [] : ['Chinese name is required'];
+        this.descriptionErrors = this.add_brand.description ? [] : ['description is required'];
         if (!this.formReady) {
           this.showAddBrand = true;
           return;
@@ -212,7 +232,7 @@
         this.add_brand.manId = this.$store.state.mvo.manId;
         console.log(this.add_brand);
         this.showAddBrand = false;
-        addCompany(this, this.add_brand)
+        addBrand(this, this.add_brand)
           .then(res=>{
             console.log(res);
             this.showToast(

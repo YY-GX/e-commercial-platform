@@ -25,7 +25,20 @@ import { consoleBuildInfo } from 'vue-cli-plugin-build-info/plugin'
 consoleBuildInfo();
 
 axios.defaults.withCredentials = true;
+var imageUpload = axios.create({
+  baseURL:'',
+  timeout:8000,
+  headers:{"Content-Type":"multipart/form-data"}
+});
 
+var tokenGet = axios.create({
+  baseURL:'',
+  timeout:8000,
+  headers:{"Content-Type":"multipart/form-data"}
+});
+
+Vue.prototype.imageUpload = imageUpload;
+Vue.prototype.tokenGet = tokenGet;
 Vue.prototype.$http = http;
 
 Vue.use(VueAxios, axios);
