@@ -38,13 +38,13 @@
     computed: {
 
     },
-    created() {
-      if (this.$store.state.wallet.is_pay === false) {
-        this.$router.push({ name: 'wallet-bill' })
-      } else {
-
-      }
-    },
+    // created() {
+    //   if (this.$store.state.wallet.is_pay === false) {
+    //     this.$router.push({ name: 'wallet-bill' })
+    //   } else {
+    //
+    //   }
+    // },
     methods: {
       jump() {
         console.log(localStorage.token);
