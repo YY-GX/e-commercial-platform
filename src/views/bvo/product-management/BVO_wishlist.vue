@@ -4,11 +4,7 @@
 <!--      wishlist-->
 <!--    </div>-->
     <div class="wishlist">
-      <va-card stripe="info" style="width: 100%;">
-        <template slot="header">
-          <va-icon name="fa fa-suitcase mr-3" color="success"/>
-          <h4 class="mt-0 mb-0"> wishlist </h4>
-        </template>
+      <va-card title="wishlist" style="width: 100%;">
         <div>
           <div class="search">
             <va-input

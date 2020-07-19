@@ -32,7 +32,7 @@
         </div>
 
         <div class="flex lg3">
-          <va-button style="margin-top: 0;" color="success" @click.stop="showAdd=true"> add </va-button>
+          <va-button style="margin-left: 80%; margin-top: 2%;" small outline @click.stop="showAdd=true"> Add Item </va-button>
         </div>
 
       </div>

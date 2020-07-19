@@ -41,7 +41,7 @@
         <template slot="header">
           <va-icon name="fa fa-suitcase mr-3" color="success"/>
           <h4 class="mt-0 mb-0"> stores </h4>
-          <va-button small outline style="margin-left: 90%; margin-top: 2%;" @click="addNewStore">Add Store</va-button>
+          <va-button small outline style="margin-left: 85%; margin-top: 2%;" @click="addNewStore">Add Store</va-button>
         </template>
 
         <div class="loading" v-show="isloading">
@@ -371,7 +371,7 @@
   // }
 </script>
 
-<style>
+<style scoped>
   .content {
     margin-top: 10px;
   }

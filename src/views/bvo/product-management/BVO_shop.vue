@@ -4,11 +4,7 @@
 <!--      shop-->
 <!--    </div>-->
     <div class="shop">
-      <va-card stripe="info">
-        <template slot="header">
-          <va-icon name="fa fa-suitcase mr-3" color="success"/>
-          <h4 class="mt-0 mb-0"> shop </h4>
-        </template>
+      <va-card title="shop" stripe="info">
 
         <div style="display: flex; flex-direction: column; justify-content: center;">
           <div>

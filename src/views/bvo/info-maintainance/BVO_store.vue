@@ -1,58 +1,63 @@
 <template>
   <div>
+
     <div class="store_info">
-      <div style="display: flex; flex-direction: row; justify-content: space-between;">
-        <div class="title"><span>store information</span></div>
-      </div>
       <div class="content">
-        <va-card stripe="info">
+        <va-card title="store information">
           <div style="display: flex; flex-direction: row;">
-            <div class="image" style="position: relative; display: flex; justify-content: center; width: 35%; height: 300px; border-radius: 20px;" @mouseover="imageIsHover=true" @mouseout="imageIsHover=false"  >
+            <div class="image" style="position: relative; display: flex; justify-content: center; width: 20%; height: 300px; border-radius: 20px;" @mouseover="imageIsHover=true" @mouseout="imageIsHover=false"  >
               <img style="border-radius: 20px; height: 80%; width: 80%;" :src="storeImageSrc"/><!-- 假图片 -->
               <!-- 遮罩层 -->
-              <div v-show="imageIsHover" style="position: absolute; z-index: 2; background: rgba(0, 0, 0, 0.6); left: 0; top: 0; width: 100%; height: 100%; border-radius: 20px; display: flex; flex-direction: column; justify-content: center; align-items: center;">
+              <div v-show="imageIsHover" style="position: absolute; z-index: 2; background: rgba(0, 0, 0, 0.6); left: 20px; top: 0; width: 85%; height: 85%; border-radius: 20px; display: flex; flex-direction: column; justify-content: center; align-items: center;">
                 <va-file-upload
                   type="single"
                   v-model="storePicture"
                 />
               </div>
+
             </div>
-            <div>
-              <!-- 展示的某一项数据  -->
-              <div class="storeName" style="display: flex; flex-direction: row; justify-content: space-around; width: 300px;">
-                <div class="param">name:</div>
-                <!-- 数据 -->
-                <div class="data">{{storeName}}</div>
-              </div>
-              <!-- 展示的某一项数据  -->
-              <div class="platform" style="display: flex; flex-direction: row; justify-content: space-around; width: 300px;">
-                <div class="param">platform:</div>
-                <!-- 数据 -->
-                <div class="data">{{platform}}</div>
-              </div>
-              <!-- 展示的某一项数据  -->
-              <div class="status" style="display: flex; flex-direction: row; justify-content: space-around; width: 300px;">
-                <div class="param">status:</div>
-                <!-- 数据 -->
-                <div class="data">{{status}}</div>
-              </div>
-              <!-- 展示的某一项数据  -->
-              <div class="description" style="display: flex; flex-direction: row; justify-content: space-around; width: 300px;">
-                <div class="param">description:</div>
-                <!-- 数据 -->
-                <div class="data">{{stsDc}}</div>
-              </div>
+
+            <div style="margin-left: 15px;">
+              <label class="labels">name: </label>{{storeName}}<br>
+              <label class="labels">platform: </label>{{platform}}<br>
+              <label class="labels">status: </label>{{status}}<br>
+              <label class="labels">description: </label>{{stsDc}}<br>
+
+
+<!--              &lt;!&ndash; 展示的某一项数据  &ndash;&gt;-->
+<!--              <div class="storeName" style="display: flex; flex-direction: row; justify-content: space-around; width: 300px;">-->
+<!--                <div class="param">name:</div>-->
+<!--                &lt;!&ndash; 数据 &ndash;&gt;-->
+<!--                <div class="data">{{storeName}}</div>-->
+<!--              </div>-->
+<!--              &lt;!&ndash; 展示的某一项数据  &ndash;&gt;-->
+<!--              <div class="platform" style="display: flex; flex-direction: row; justify-content: space-around; width: 300px;">-->
+<!--                <div class="param">platform:</div>-->
+<!--                &lt;!&ndash; 数据 &ndash;&gt;-->
+<!--                <div class="data">{{platform}}</div>-->
+<!--              </div>-->
+<!--              &lt;!&ndash; 展示的某一项数据  &ndash;&gt;-->
+<!--              <div class="status" style="display: flex; flex-direction: row; justify-content: space-around; width: 300px;">-->
+<!--                <div class="param">status:</div>-->
+<!--                &lt;!&ndash; 数据 &ndash;&gt;-->
+<!--                <div class="data">{{status}}</div>-->
+<!--              </div>-->
+<!--              &lt;!&ndash; 展示的某一项数据  &ndash;&gt;-->
+<!--              <div class="description" style="display: flex; flex-direction: row; justify-content: space-around; width: 300px;">-->
+<!--                <div class="param">description:</div>-->
+<!--                &lt;!&ndash; 数据 &ndash;&gt;-->
+<!--                <div class="data">{{stsDc}}</div>-->
+<!--              </div>-->
             </div>
+
           </div>
         </va-card>
       </div>
     </div>
-    <div class="product_table">
-      <div style="display: flex; flex-direction: row; justify-content: space-between;">
-        <div class="title"><span>products on sell</span></div>
-      </div>
+
+    <div class="product_table" style="margin-top: 10px;">
       <div class="data_table">
-        <va-card stripe="info">
+        <va-card title="products on sell">
           <div>
             <va-data-table
               :fields="field"
@@ -377,7 +382,7 @@
   }
 </script>
 
-<style>
+<style scoped>
   .hover {
     background-color: orangered;
     cursor: pointer;
@@ -392,5 +397,9 @@
     border-radius: 5px;
     display: flex;
     justify-content: center;
+  }
+
+  .labels {
+    font-weight: bold;
   }
 </style>
