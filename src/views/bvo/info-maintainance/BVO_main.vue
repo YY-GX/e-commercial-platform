@@ -1,33 +1,49 @@
 <template>
   <div>
-    <div class="basic_info">
-      <div style="display: flex; flex-direction: row; justify-content: space-between;">
-        <div class="title"><span>basic information</span></div>
-        <!-- 修改按钮 -->
-        <div style="display: flex; flex-direction: row; justify-content: right; align-content: center;">
-          <div style="display: flex; align-content: center;" v-show="!isediting"><va-button small style="margin-top: 0;" @click="edit">edit</va-button></div>
-          <div style="display: flex; align-content: center;" v-show="isediting"><va-button small color="success" style="margin-top: 0;" @click="confirmEdit">confirm</va-button></div>
-          <div style="display: flex; align-content: center;" v-show="isediting"><va-button small color="warning" style="margin-top: 0;" @click="cancelEdit">cancel</va-button></div>
-        </div>
-      </div>
-      <div class="content">
-        <va-card stripe="info">
-          <!-- 展示的某一项数据  -->
-          <div class="name" style="display: flex; flex-direction: row; justify-content: space-around; width: 300px;">
-            <div class="param">name:</div>
-            <!-- 数据与输入框 -->
-            <div class="data" v-show="!isediting">{{bvo_name}}</div>
-            <div class="edit" v-show="isediting"><va-input :error="nameIsNull" error-messages="name can't be null" v-model="edit_bvo_name"/></div>
-          </div>
-        </va-card>
-      </div>
-    </div>
+<!--    <div class="basic_info">-->
+<!--      <div style="display: flex; flex-direction: row; justify-content: space-between;">-->
+<!--        <div class="title"><span>basic information</span></div>-->
+<!--        &lt;!&ndash; 修改按钮 &ndash;&gt;-->
+<!--        <div style="display: flex; flex-direction: row; justify-content: right; align-content: center;">-->
+<!--          <div style="display: flex; align-content: center;" v-show="!isediting"><va-button small style="margin-top: 0;" @click="edit">edit</va-button></div>-->
+<!--          <div style="display: flex; align-content: center;" v-show="isediting"><va-button small color="success" style="margin-top: 0;" @click="confirmEdit">confirm</va-button></div>-->
+<!--          <div style="display: flex; align-content: center;" v-show="isediting"><va-button small color="warning" style="margin-top: 0;" @click="cancelEdit">cancel</va-button></div>-->
+<!--        </div>-->
+<!--      </div>-->
+
+<!--      <div class="content">-->
+<!--        <va-card stripe="info">-->
+<!--          <template slot="header">-->
+<!--            <va-icon name="fa fa-suitcase mr-3" color="success"/>-->
+<!--            <h4 class="mt-0 mb-0"> basic information </h4>-->
+<!--            <va-button small style="margin-top: 0;" @click="edit">edit</va-button>-->
+<!--          </template>-->
+
+<!--          &lt;!&ndash; 展示的某一项数据  &ndash;&gt;-->
+<!--          <div class="name" style="display: flex; flex-direction: row; justify-content: space-around; width: 300px;">-->
+<!--            <div class="param">name:</div>-->
+<!--            &lt;!&ndash; 数据与输入框 &ndash;&gt;-->
+<!--            <div class="data" v-show="!isediting">{{bvo_name}}</div>-->
+<!--            <div class="edit" v-show="isediting"><va-input :error="nameIsNull" error-messages="name can't be null" v-model="edit_bvo_name"/></div>-->
+<!--          </div>-->
+<!--        </va-card>-->
+<!--      </div>-->
+<!--    </div>-->
+
+
     <div class="store_list">
-      <div style="display: flex; flex-direction: row; justify-content: space-between;">
-        <div class="title"><span>stores</span></div>
-        <div class="add" style="display: flex; align-content: center;" ><va-button style="margin-top: 0;" @click="addNewStore" icon="fa fa-plus">add</va-button></div>
-      </div>
+<!--      <div style="display: flex; flex-direction: row; justify-content: space-between;">-->
+<!--        <div class="title"><span>stores</span></div>-->
+<!--        <div class="add" style="display: flex; align-content: center;" ><va-button style="margin-top: 0;" @click="addNewStore" icon="fa fa-plus">add</va-button></div>-->
+<!--      </div>-->
+
       <va-card stripe="info">
+        <template slot="header">
+          <va-icon name="fa fa-suitcase mr-3" color="success"/>
+          <h4 class="mt-0 mb-0"> stores </h4>
+          <va-button small outline style="margin-left: 90%; margin-top: 2%;" @click="addNewStore">Add Store</va-button>
+        </template>
+
         <div class="loading" v-show="isloading">
           <hollow-dots-spinner
             :animation-duration="1000"
@@ -53,6 +69,8 @@
         </div>
       </va-card>
     </div>
+
+
     <va-modal
       v-model="addNewShowed"
       size="medium"
@@ -63,9 +81,13 @@
       >
       <slot>
         <div>
-          store name:<va-input v-model="newStoreName"></va-input>
-          platform type:<va-select
-          label="platform"
+          <va-input
+            label="store name"
+            v-model="newStoreName">
+          </va-input>
+
+          <va-select
+          label="platform type"
           v-model="newStorePlatform"
           textBy="description"
           :options="platforms"
@@ -73,6 +95,8 @@
         </div>
       </slot>
     </va-modal>
+
+
   </div>
 </template>
 
@@ -342,13 +366,12 @@
       }
     }
   }
+  //   .title {
+  //   font-size: 30px;
+  // }
 </script>
 
 <style>
-  .title {
-    font-size: 30px;
-  }
-
   .content {
     margin-top: 10px;
   }
@@ -392,7 +415,7 @@
 
   .store_container {
     display: flex;
-    width: calc(100% / 3);
+    width: calc(100% / 5);
     justify-content: center;
   }
 

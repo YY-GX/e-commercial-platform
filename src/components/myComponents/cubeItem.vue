@@ -14,14 +14,19 @@
         >
           <template slot="header">
             <h5 class="mt-0 mb-0 title">{{ img_title }}</h5>
-            <div v-if="is_product">${{price}}</div>
+<!--            <div v-if="is_product">${{price}}</div>-->
             <div @click.stop="like_" v-if="is_product">
               <va-icon class="like" name='fa fa-heart-o' color="pink" v-if="!is_like"/>
               <va-icon class="like" name='fa fa-heart' color="pink" v-if="is_like"/>
             </div>
           </template>
 
+          <span class="right-space" v-if="is_product">
+            <label class="labels">Product Price: </label>
+            <span class="text--highlighted">${{price}}</span>
+          </span><br>
           {{img_intro}}
+
         </va-card>
       </div>
 
@@ -247,7 +252,7 @@
   }
 
   .title {
-    margin-right: 40%;
+    margin-right: 70%;
   }
 
   .like {
@@ -290,5 +295,13 @@
     border-radius: 5px;
     display: flex;
     justify-content: center;
+  }
+
+  .right-space {
+    margin-right: 10px;
+  }
+
+  .labels {
+    font-weight: bold;
   }
 </style>

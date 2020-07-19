@@ -236,7 +236,7 @@
         storeImageSrc : "" //商店图片url 尚未绑定img src
       }
     },
-    watch:{
+    watch: {
       storePicture : { //当storePicture数组变化（用户新上传时）
         handler : function(val,oldVal){
           if(val.length == 0){ //无文件

@@ -1,10 +1,15 @@
 <template>
   <div>
-    <div class="title">
-      shop
-    </div>
+<!--    <div class="title">-->
+<!--      shop-->
+<!--    </div>-->
     <div class="shop">
       <va-card stripe="info">
+        <template slot="header">
+          <va-icon name="fa fa-suitcase mr-3" color="success"/>
+          <h4 class="mt-0 mb-0"> shop </h4>
+        </template>
+
         <div style="display: flex; flex-direction: column; justify-content: center;">
           <div>
             <div class="search">
@@ -211,7 +216,7 @@
 
   .product_item {
     display: flex;
-    width: calc(100% / 2);
+    width: calc(100% / 5);
     justify-content: center;
   }
 

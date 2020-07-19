@@ -1,11 +1,17 @@
 <template>
   <div v-if="!isRemoved" class="background" :class="{'hover':ishover}" @click="showDetails" @mouseover="mouseover" @mouseout="mouseout">
     <!-- 删除标签，防止点击事件冒泡（点击删除同时触发查看详细） -->
-    <div  v-show="ishover" style="position: absolute; margin-left: 380px; margin-top: 0; z-index: 3;" @click.stop="remove"><va-icon style="color: grey;" name="fa fa-trash fa-1x"/></div>
+    <div  v-show="ishover" style="position: absolute; margin-left: 330px; margin-top: 0; z-index: 3;" @click.stop="remove"><va-icon style="color: grey;" name="fa fa-trash fa-1x"/></div>
     <div class="image"><img :src="imageUrl"/></div>
     <div class="info">
-        <div class="name">{{name}}</div>
-        <div class="price">${{price}}</div>
+      <span><label class="labels">Product Name: </label>{{name}}</span>
+      <br>
+      <span class="right-space"><label class="labels">Product Price: </label>
+            <span class="text--highlighted">${{price}}</span>
+      </span>
+
+<!--        <div class="name">{{name}}</div>-->
+<!--        <div class="price">${{price}}</div>-->
     </div>
     <va-modal
       v-model="showConfirm"
@@ -115,7 +121,7 @@
 <style scoped>
   .image {
     margin: 0;
-    width: 60%;
+    width: 40%;
     height: 100%;
   }
 
@@ -143,11 +149,11 @@
   .info {
     display: flex;
     flex-direction: column;
+    padding-left: 5px;
     border-left-style: solid;
-    justify-content: center;
     border-width: 1px;
     border-color: #e3eaeb;
-    width: 40%;
+    width: 60%;
   }
 
   .name {
@@ -181,5 +187,9 @@
     transition: all  ease-out;
     border-radius: 20px;
     cursor: pointer;
+  }
+
+  .labels {
+    font-weight: bold;
   }
 </style>
