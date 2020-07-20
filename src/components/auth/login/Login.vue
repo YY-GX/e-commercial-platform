@@ -132,7 +132,7 @@ export default {
                 this.$store.commit("changeToken",res.data.access_token);
                 window.localStorage["token"] = res.data.access_token;
                 if(this.$store.state.user.roleId == 3){
-                  this.$router.push({ name: 'Admin' });
+                  this.$router.push({ name: 'audit-wallet' });
                 }
                 else if(this.$store.state.user.roleId == 2){
                   this.$router.push({ name: 'BVO_info' });

@@ -1,7 +1,7 @@
 <template>
   <div v-if="!isRemoved" class="background" :class="{'hover':ishover}" @click="showDetails" @mouseover="mouseover" @mouseout="mouseout">
     <!-- 删除标签，防止点击事件冒泡（点击删除同时触发查看详细） -->
-    <div  v-show="ishover" style="position: absolute; margin-left: 330px; margin-top: 0; z-index: 3;" @click.stop="remove"><va-icon style="color: grey;" name="fa fa-trash fa-1x"/></div>
+    <div  v-show="ishover" style="position: absolute; margin-left: 90%; margin-top: 0; z-index: 3;" @click.stop="remove"><va-icon style="color: grey;" name="fa fa-trash fa-1x"/></div>
     <div class="image"><img :src="imageUrl"/></div>
     <div class="info">
       <span><label class="labels">Product Name: </label>{{name}}</span>

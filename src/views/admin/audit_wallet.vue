@@ -115,9 +115,10 @@
       approve(row){
         var data = {"walletId" : row.walletId, "transactionAuditId" : row.transactionAuditId}
         approveAudit(this,data).then(res=>{
+          console.log(res);
           var newList = [];
           for(var i=0;i<this.fieldData.length;i++){
-            if(row.walletId==this.fieldData[i].walletId && row.transactionAuditId==this.fieldData[i].transactionAuditId){
+            if(row.walletId == this.fieldData[i].walletId && row.transactionAuditId == this.fieldData[i].transactionAuditId){
               continue;
             }
             else{
@@ -125,14 +126,16 @@
             }
           }
           this.fieldData = newList;
+          this.searchTransaction();
         })
       },
       refuse(row){
         var data = {"walletId" : row.walletId, "transactionAuditId" : row.transactionAuditId}
         refuseAudit(this,data).then(res=>{
+          console.log(res);
           var newList = [];
           for(var i=0;i<this.fieldData.length;i++){
-            if(row.walletId==this.fieldData[i].walletId && row.transactionAuditId==this.fieldData[i].transactionAuditId){
+            if(row.walletId == this.fieldData[i].walletId && row.transactionAuditId == this.fieldData[i].transactionAuditId){
               continue;
             }
             else{
@@ -140,6 +143,7 @@
             }
           }
           this.fieldData = newList;
+          this.searchTransaction();
         })
       },
       searchTransaction(){

@@ -6,20 +6,36 @@
     <div class="wishlist">
       <va-card title="wishlist" style="width: 100%;">
         <div>
-          <div class="search">
-            <va-input
-              v-model="searchIndex"
-            >
-              <va-icon
-                slot="prepend"
-                color="gray"
-                name="fa fa-search"
+          <div class="search" style="display: flex; flex-direction: row;">
+            <div style="width: 30%;">
+              <va-input
+                v-model="searchIndex"
+              >
+                <va-icon
+                  slot="prepend"
+                  color="gray"
+                  name="fa fa-search"
+                />
+              </va-input>
+            </div>
+
+            <div class="loading" v-show="isloading" style="margin-left: 10px; margin-top: 10px;">
+              <hollow-dots-spinner
+                :animation-duration="1000"
+                :size="80"
+                color="skyblue"
               />
-            </va-input>
+            </div>
           </div>
           <div class="wishlist_list">
             <div class="wishlist_item" v-for="wishlist in currentWishlist.slice((activePage-1)*pageSize,activePage*pageSize)">
-              <wishlist-item :image-url="wishlist.image_url" :name="wishlist.name" :price="wishlist.min_retail_price" :wish-list-id="wishlist.wit_id" :product-id="wishlist.pro_id" :dsr-id="dsrId" @remove_wishlist="removeWishlist"></wishlist-item>
+              <wishlist-item :image-url="wishlist.image_url" :name="wishlist.name"
+                             :price="wishlist.min_retail_price" :wish-list-id="wishlist.wit_id"
+                             :product-id="wishlist.pro_id" :dsr-id="dsrId"
+                             @remove_wishlist="removeWishlist"
+              >
+
+              </wishlist-item>
             </div>
           </div>
         </div>
@@ -41,8 +57,9 @@
   import VaInput from "vuestic-ui/src/components/vuestic-components/va-input/VaInput";
   import {getAll_shop_product, getWishlist,remove_Wishlist} from "../../../api/bvo.js";
   import WishlistItem from "../../../components/myComponents/wishlistItem"
+  import HollowDotsSpinner from "epic-spinners/src/components/lib/HollowDotsSpinner";
   export default {
-    components: {WishlistItem, VaInput, CubeItem},
+    components: {HollowDotsSpinner,WishlistItem, VaInput, CubeItem},
     created : function(){
 
       this.dsrId = this.$store.state.bvo.dsrId;
@@ -114,7 +131,7 @@
         dsrId : 0,
         pageSize : 6, //页面显示数量
         activePage : 1, //当前页面
-
+        isloading : false
       }
     },
     computed : {
@@ -128,8 +145,11 @@
         clearTimeout(this.timer); //清除之前的定时器
 
         this.timer = setTimeout(()=>{
-          this.searchProduct();
-        },2000)
+          this.isloading = true;
+          setTimeout(()=>{this.isloading=false;
+            this.searchProduct();
+          },2000)
+        },1000)
       }
     },
     methods : {
@@ -137,7 +157,7 @@
         var newWishlist = [];
         for(var i=0;i<this.allWishlist.length;i++){
           var wishlistItem = this.allWishlist[i];
-          if(wishlistItem.name.indexOf(this.searchIndex)>=0){
+          if(wishlistItem.name.toLowerCase().includes(this.searchIndex.toLowerCase())){
             newWishlist = newWishlist.concat(wishlistItem);
           }
         }

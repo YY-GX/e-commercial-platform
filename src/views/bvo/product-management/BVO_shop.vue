@@ -8,20 +8,33 @@
 
         <div style="display: flex; flex-direction: column; justify-content: center;">
           <div>
-            <div class="search">
-              <va-input
-                v-model="searchIndex"
-              >
-                <va-icon
-                  slot="prepend"
-                  color="gray"
-                  name="fa fa-search"
+            <div class="search" style="display: flex; flex-direction: row;">
+              <div style="width: 30%;">
+                <va-input
+                  v-model="searchIndex"
+                >
+                  <va-icon
+                    slot="prepend"
+                    color="gray"
+                    name="fa fa-search"
+                  />
+                </va-input>
+              </div>
+
+              <div class="loading" v-show="isloading" style="margin-left: 10px; margin-top: 10px;">
+                <hollow-dots-spinner
+                  :animation-duration="1000"
+                  :size="80"
+                  color="skyblue"
                 />
-              </va-input>
+              </div>
             </div>
             <div class="product_list">
-              <div class="product_item" v-for="product in currentProducts.slice((activePage-1)*pageSize,activePage*pageSize)">
-                <cube-item :img_url="product.image_url" :img_title="product.name" :img_intro="product.description" :type="'product'" :cube_id="product.pro_id" :price="product.min_retail_price" :wit-id="product.witId" :usr_id="parseInt(dsrId)"></cube-item>
+              <div class="product_item"
+                   v-for="product in currentProducts.slice((activePage-1)*pageSize,activePage*pageSize)">
+                <cube-item :img_url="product.image_url" :img_title="product.name" :img_intro="product.description"
+                           :type="'product'" :cube_id="product.pro_id" :price="product.min_retail_price"
+                           :wit-id="product.witId" :usr_id="parseInt(dsrId)"></cube-item>
               </div>
             </div>
           </div>
@@ -43,8 +56,9 @@
   import CubeItem from "../../../components/myComponents/cubeItem";
   import VaInput from "vuestic-ui/src/components/vuestic-components/va-input/VaInput";
   import {getAll_shop_product, getWishlist} from "../../../api/bvo.js";
+  import HollowDotsSpinner from "epic-spinners/src/components/lib/HollowDotsSpinner";
   export default {
-    components: {VaInput, CubeItem},
+    components: {HollowDotsSpinner, VaInput, CubeItem},
     created : function(){
 
       this.dsrId = this.$store.state.bvo.dsrId;
@@ -163,7 +177,7 @@
         dsrId : 0,
         pageSize : 6, //页面显示数量
         activePage : 1, //当前页面
-
+        isloading : false
       }
     },
     computed : {
@@ -177,8 +191,11 @@
         clearTimeout(this.timer); //清除之前的定时器
 
         this.timer = setTimeout(()=>{
-          this.searchProduct();
-        },2000)
+          this.isloading = true;
+          setTimeout(()=>{this.isloading=false;
+            this.searchProduct();
+          },2000)
+        },1000)
       }
     },
     methods : {
@@ -186,7 +203,7 @@
         var newProducts = [];
         for(var i=0;i<this.allProducts.length;i++){
           var product = this.allProducts[i];
-          if(product.name.indexOf(this.searchIndex)>=0||product.description.indexOf(this.searchIndex)>=0){
+          if(product.name.toLowerCase().includes(this.searchIndex.toLowerCase())||product.description.toLowerCase().includes(this.searchIndex.toLowerCase())){
             newProducts = newProducts.concat(product);
           }
         }

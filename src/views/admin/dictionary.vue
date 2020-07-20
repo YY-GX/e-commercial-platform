@@ -83,6 +83,16 @@
     </va-modal>
 
     <va-modal
+      v-model="showRemove"
+      title="confirm remove"
+      :message="removeMessage"
+      okText="confirm"
+      :cancelText=" $t('modal.cancel') "
+      @ok="confirmRemove"
+    >
+    </va-modal>
+
+    <va-modal
       v-model="showUpdate"
       title="update item in dictionary"
       okText="update"
@@ -135,26 +145,33 @@
         my_codeVal: "",
         showAdd : false,
         showUpdate : false,
-        updateId : 0
+        updateId : 0,
+        showRemove : false,
+        removeId : 0
       }
     },
     methods: {
 
-      remove(row){
-        var data = {"cdmId" : row.cdmId}
+      confirmRemove(){
+        var data = {"cdmId" : this.removeId}
         removeDictionary(this,data).then(res=>{
           console.log(res);
           getDictionary(this).then(response=>{
             console.log(response);
             if (response.status == 200) {
               this.fieldData = response.data.data;
-              this.showList = this.fieldData;
+              this.searchTransaction();
               console.log(this.fieldData);
             } else {
               console.log('Return 500!')
             }
           })
         })
+      },
+
+      remove(row){
+        this.removeId = row.cdmId;
+        this.showRemove = true;
       },
 
       update(row) {
@@ -196,7 +213,7 @@
               console.log(response);
               if (response.status == 200) {
                 this.fieldData = response.data.data;
-                this.showList = this.fieldData;
+                this.searchTransaction();
                 console.log(this.fieldData);
               } else {
                 console.log('Return 500!')
@@ -220,7 +237,7 @@
               console.log(response);
               if (response.status == 200) {
                 this.fieldData = response.data.data;
-                this.showList = this.fieldData;
+                this.searchTransaction();
                 console.log(this.fieldData);
               } else {
                 console.log('Return 500!')
@@ -255,6 +272,9 @@
       }
     },
     computed: {
+      removeMessage (){
+        return "are you sure to remove this item?";
+      },
       codeTypeIsWrong (){
         return this.my_codeType === "";
       },
