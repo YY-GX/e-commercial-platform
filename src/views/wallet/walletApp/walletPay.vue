@@ -10,45 +10,54 @@
         <h4 class="mt-0 mb-0"> order detail </h4>
       </template>
       <div class="content_container" style="display: flex; flex-direction: column;">
-        <div class="order_basic" style="display: flex; flex-direction: row; justify-content: right;">
-          <div style="margin-right: 50px;">orderNo: {{orderNo}}</div>
-          <div>create time: {{createDate}}</div>
-        </div>
         <div class="pdContainer" style="display: flex; flex-direction: row;">
           <div class="pdContainer__image">
             <img :src=img_url alt="Product Image" class="img">
           </div>
 
           <div class="pdContainer__text">
-            <va-card
-              stripe="info">
-              <template slot="header" class="py-2">
-                <va-icon class="right-space" name="fa fa-shopping-cart" color="info"/>
-                <h5 class="mt-0 mb-0">{{ name }}</h5>
-              </template>
-              <va-badge class="mb-2 py-1 badge" color="dark" outline>Sku cd: {{skuCd}}</va-badge>
-              <va-badge class="mb-2 py-1 badge" color="dark" outline>Model: {{model}}</va-badge>
-              <br>
-              <span class="right-space"><label class="labels">RetailPrice: </label>
+            <div class="order_basic">
+              <div style="margin-left: 10px; margin-right: 50px;">Order number: {{orderNo}}</div>
+              <div>Create time: {{createDate}}</div>
+            </div>
+            <template slot="header" class="py-2">
+              <va-icon class="right-space" name="fa fa-shopping-cart" color="info"/>
+              <h5 class="mt-0 mb-0">{{ name }}</h5>
+            </template>
+            <label class="labels"><va-icon class="right-space" name="fa fa-shopping-cart" color="info"/>
+              Product name: </label>{{ name }}<br>
+            <va-badge class="mb-2 py-1 badge" color="dark" outline>Sku cd: {{skuCd}}</va-badge>
+            <va-badge class="mb-2 py-1 badge" color="dark" outline>Model: {{model}}</va-badge>
+            <br>
+            <span class="right-space"><label class="labels">Retail Price: </label>
             <span class="text--highlighted">￥{{minRetailPrice}}</span>
           </span>
-              <label class="labels"></label>[<s>￥{{retailPrice}}</s>]
-              <br>
-              <label class="labels">category: </label>{{category}}<br>
-              <label class="labels">Size: </label>{{width}} × {{height}}<br>
-              <label class="labels">Weight: </label>{{weight}}<br>
-              <hr>
-              <span class="small-title">Other information</span> <br>
-              <label class="labels">ReplenishmentPeriod: </label>{{replenishmentPeriod}}<br>
-              <label class="labels">WarrantyDay: </label>{{warrantyDay}}<br>
-              <label class="labels">Warranty: </label>{{warranty}}<br>
-            </va-card>
+            <label class="labels"></label>[<s>￥{{retailPrice}}</s>]
+            <br>
+            <label class="labels">Category: </label>{{category}}<br>
+            <label class="labels">Size: </label>{{width}} × {{height}}<br>
+            <label class="labels">Weight: </label>{{weight}}<br>
+            <hr>
+            <span class="small-title">Other information</span> <br>
+            <label class="labels">Replenishment period: </label>{{replenishmentPeriod}}<br>
+            <label class="labels">Warranty day: </label>{{warrantyDay}}<br>
+            <label class="labels">Warranty: </label>{{warranty}}<br>
+            <hr>
+            <span class="small-title">Pay information</span> <br>
+            <label class="labels">Amount: </label>{{amount}}<br>
+            <label class="labels">Total: </label>￥{{total}}<br>
           </div>
+
         </div>
         <div class="pay_info" style="display: flex; flex-direction: row; justify-content: right;">
-          <div class="amount">amount: {{amount}}</div>
-          <div class="total">total: ￥{{total}}</div>
-          <div><va-button @click="pay">PAY</va-button></div>
+
+          <div style="display: flex; justify-content: right; width: 12%;">
+            <va-button color="#05668d" style="width: 100%;" @click="cancelBack">CANCEL</va-button>
+          </div>
+
+          <div style="display: flex; justify-content: right; width: 12%;">
+            <va-button color='#00a896' style="width: 100%;" @click="pay">PAY</va-button>
+          </div>
         </div>
       </div>
     </va-card>
@@ -67,7 +76,11 @@
       title="Success"
       :message="successMessage"
       hide-default-actions="true"
-    />
+    >
+      <template slot="actions">
+        <va-button @click="cancelBack">go back now</va-button>
+      </template>
+    </va-modal>
   </div>
 </template>
 
@@ -147,6 +160,7 @@
       pay : function(){
         var walletId = this.$store.state.wallet.walletId;
         var MoneyData = {"walletId" : walletId}
+        window.localStorage['token'] = "wallet"
         getBasicInfo(this,MoneyData).then(res => {
           console.log(res);
           this.availableMoney = parseFloat(res.data.data.availableMoney);
@@ -174,13 +188,28 @@
       },
       recharge : function(){
         this.showAlert = false;
+        window.localStorage['token'] = "wallet"
         this.$router.push({name : "wallet-bill"})
+      },
+      cancelBack : function(){
+        clearInterval(this.timer);
+        window.localStorage['token'] = this.$store.state.user.token;
+        this.$router.push({name : 'BVO_order'});
       }
     }
   }
 </script>
 
 <style scoped lang="scss">
+
+  .order_basic {
+    display: flex;
+    flex-direction: row;
+    justify-content: left;
+    background-color: #e3eaeb;
+    border-radius: 20px;
+    margin-bottom: 10px;
+  }
 
   .pdContainer {
     display: flex;

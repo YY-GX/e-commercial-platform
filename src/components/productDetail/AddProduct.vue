@@ -176,8 +176,7 @@
 
             <div class="flex lg12">
               <va-file-upload
-                type="gallery"
-                file-types=".png, .jpg, .jpeg, .gif"
+                type="single"
                 dropzone
                 v-model="imgArr"
               />
@@ -398,7 +397,7 @@
                     fullWidth: false,
                   }
                 );
-                this.storePicture = [];
+                this.imgArr = [];
               }
             }
           },

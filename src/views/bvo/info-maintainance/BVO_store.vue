@@ -1,7 +1,7 @@
 <template>
   <div>
-
     <div class="store_info">
+      <div><va-button icon="fa fa-arrow-left" @click="backtoMain">back</va-button></div>
       <div class="content">
         <va-card title="store information">
           <div style="display: flex; flex-direction: row;">
@@ -319,6 +319,10 @@
       }
     },
     methods : {
+        backtoMain(){
+          this.$router.push({name : "BVO_info"})
+        },
+
         showDetail : function (rowData) {
           var proId = rowData.proId;
           getBVOProductdetail(this,proId

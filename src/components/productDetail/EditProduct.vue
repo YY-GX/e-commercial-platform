@@ -144,8 +144,7 @@
 
           <div class="flex lg12">
             <va-file-upload
-              type="gallery"
-              file-types=".png, .jpg, .jpeg, .gif"
+              type="single"
               dropzone
               v-model="imgUrl"
             />
@@ -294,7 +293,21 @@
         proId: this.proId
       }).then((res)=>{
         console.log(res.data)
-        this.details = res.data;
+        this.details = res.data.data[0];
+        var details = this.details;
+        this.details.name = details.NAME;
+        this.details.skuCd =  details.sku_cd;
+        this.details.model = details.model;
+        this.details.description = details.description;
+        this.details.retailPrice = details.retail_price;
+        this.details.minRetailPrice = details.min_retail_price;
+        this.details.width = details.width;
+        this.details.height = details.height;
+        this.details.length = details.length;
+        this.details.weight =  details.weight;
+        this.details.warrantyDay = details.warranty_day;
+        this.details.replenishmentPeriod =  details.replenishment_period;
+        this.details.warranty = details.warranty;
       })
     },
     computed: {
@@ -316,6 +329,55 @@
         ) ;
         // return !(this.emailErrors.length || this.passwordErrors.length || this.agreedToTermsErrors.length)
       },
+    },
+    watch: {
+      imgUrl : {
+        handler : function(val,oldVal){
+          if(val.length == 0){ //无文件
+            return;
+          }
+          else{
+            var index = val.length-1;//最新选择的文件
+            var fileName = val[index].name;
+            var fileSplit = fileName.split(".");
+            var fileType = fileSplit[fileSplit.length - 1];
+            fileType = fileType.toLowerCase();
+            if(fileType == "png"||fileType == "jpg" || fileType == "jpeg"){
+              console.log(fileName)
+
+              var formData = new FormData();
+              formData.append("file",val[index]);
+              formData.append("strId",this.strId);
+              console.log(uploadImage(this,formData));
+              uploadImage(this,formData).then(
+                res => {
+                  console.log(res);
+                  if(res.status == 200){
+                    this.storeImageSrc = res.data.data;
+                  }
+                  else{
+                    console.log(res.message)
+                  }
+                }
+              )
+            }
+            else{
+              console.log(fileType);
+              this.showToast(
+                "file is not an image, please choose an image file",
+                {
+                  icon: 'fa-exclamation',
+                  position: 'top-right',
+                  duration: 2500,
+                  fullWidth: false,
+                }
+              );
+              this.imgUrl = [];
+            }
+          }
+        },
+        deep : true
+      }
     },
     methods: {
       editProduct() {

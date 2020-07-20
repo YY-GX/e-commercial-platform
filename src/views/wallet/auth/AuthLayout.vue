@@ -6,7 +6,7 @@
 
     <div class="flex xs12 pa-3 flex-center">
       <router-link class="py-5 flex-center" to="/">
-        <va-icon-vuestic />
+        <va-icon-logo></va-icon-logo>
       </router-link>
     </div>
 
@@ -35,6 +35,7 @@
 
 <script>
 import VaIconVuestic from '../../../iconset/VaIconVuestic'
+import VaIconLogo from "../../../iconset/VaIconLogo";
 
 const tabs = [
   'wallet-login',
@@ -43,7 +44,7 @@ const tabs = [
 
 export default {
   name: 'WalletAuthLayout',
-  components: { VaIconVuestic },
+  components: {VaIconLogo, VaIconVuestic },
   data () {
     return {
       selectedTabIndex: 0,

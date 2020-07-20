@@ -64,6 +64,7 @@ export default {
     }
   },
   created() {
+    localStorage.removeItem('token');
     console.log('created');
     getCode(this).then((res)=>{
       console.log(res);
