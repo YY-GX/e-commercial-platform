@@ -4,9 +4,11 @@
       <img src="../../assets/icons/wallet.png" alt="to wallet" class="wallet-icon">
     </div>
 
-    <div class="flex xs12 pa-3 flex-center">
-      <router-link class="py-5 flex-center" to="/">
-        <va-icon-logo></va-icon-logo>
+    <div class="flex xs12 pa-1 flex-center">
+      <router-link class="py-1 flex-center" to="/">
+        <img src="../../assets/icons/logo_v2.png" alt="" style="width: 100px;">
+        <img src="../../assets/icons/title_v2.svg" alt="Title logo">
+        <!--        <va-icon-logo style="width: 20%; height: 5%;"></va-icon-logo>-->
       </router-link>
     </div>
 

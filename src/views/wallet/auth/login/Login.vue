@@ -30,80 +30,94 @@
 <script>
   import {login} from "../../../../api/wallet.js"
 
-export default {
-  name: 'wallet-login',
-  data () {
-    return {
-      username: '',
-      password: '',
-      keepLoggedIn: false,
-      usrErrors: [],
-      passwordErrors: [],
-    }
-  },
-  created() {
-    if(this.$store.state.wallet.walletId != null){
-      if(this.$store.state.wallet.is_pay){
-        this.$store.commit("changeIsPay",false);
-        this.$router.push({name : "wallet-pay"});
+  export default {
+    name: 'wallet-login',
+    data () {
+      return {
+        username: '',
+        password: '',
+        keepLoggedIn: false,
+        usrErrors: [],
+        passwordErrors: [],
       }
-      else{
-        console.log("hello");
-        this.$router.push({ name: 'wallet-bill' })
-      }
-    }
-  },
-
-  computed: {
-    formReady () {
-      return !this.usrErrors.length && !this.passwordErrors.length;
     },
-  },
-  methods: {
-    onsubmit () {
-      console.log('go');
-      this.usrErrors = this.username ? [] : ['Username is required'];
-      this.passwordErrors = this.password ? [] : ['Password is required'];
-      if (!this.formReady) {
-        return
+    created() {
+      if(this.$store.state.wallet.walletId != null){
+        if(this.$store.state.wallet.is_pay){
+          this.$store.commit("changeIsPay",false);
+          this.$router.push({name : "wallet-pay"});
+        }
+        else{
+          console.log("hello");
+          this.$router.push({ name: 'wallet-bill' })
+        }
       }
+    },
 
-      window.localStorage["token"] = 'wallet';
+    computed: {
+      formReady () {
+        return !this.usrErrors.length && !this.passwordErrors.length;
+      },
+    },
+    methods: {
+      onsubmit () {
+        console.log('go');
+        this.usrErrors = this.username ? [] : ['Username is required'];
+        this.passwordErrors = this.password ? [] : ['Password is required'];
+        if (!this.formReady) {
+          return
+        }
 
-      let postData = {
-        username: this.username,
-        password: this.password,
-      };
+        window.localStorage["token"] = 'wallet';
 
-      login(this, postData)
-        .then(res => {
-          console.log(res);
-          let storeData = res.data.data;
-          this.$store.commit("walletLogin", storeData);
-          if (res.status == 200) {
-            console.log('login successful!');
-            console.log(this.$store.state.wallet.is_pay);
-            if(this.$store.state.wallet.is_pay){
-              this.$store.commit("changeIsPay",false);
+        let postData = {
+          username: this.username,
+          password: this.password,
+        };
+
+        login(this, postData)
+          .then(res => {
+            console.log(res);
+            if (res.data.status === 500) {
+              console.log('Wrong!');
+              this.showToast(
+                "Wrong password!",
+                {
+                  icon: 'fa-warning',
+                  position: 'top-right',
+                  duration: 2500,
+                  fullWidth: false,
+                },
+              );
+              return;
+            }
+
+            let storeData = res.data.data;
+            this.$store.commit("walletLogin", storeData);
+            if (res.status == 200) {
+              console.log('login successful!');
               console.log(this.$store.state.wallet.is_pay);
-              this.$router.push({name: "wallet-pay"});
+              if(this.$store.state.wallet.is_pay){
+                this.$store.commit("changeIsPay",false);
+                console.log(this.$store.state.wallet.is_pay);
+                this.$router.push({name: "wallet-pay"});
+              }
+              else{
+                this.$router.push({ name: 'wallet-bill' })
+              }
+            } else {
+              console.log('Status not 200.');
             }
-            else{
-              this.$router.push({ name: 'wallet-bill' })
-            }
-          } else {
-            console.log('Status not 200.');
-          }
-      });
+          });
 
-       // Delete in future
+        // Delete in future
 
-      // To be put into the login axios
+        // To be put into the login axios
+
+      },
 
     },
-
-  },
-}
+  }
 </script>
 
 <style lang="scss">

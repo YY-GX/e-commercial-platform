@@ -41,10 +41,10 @@
       options: {
         type: Array,
         default: () => [
-          {
-            name: 'My Profile',
-            redirectTo: '',
-          },
+          // {
+          //   name: 'My Profile',
+          //   redirectTo: '',
+          // },
           {
             name: 'My Wallet',
             redirectTo: 'wallet-login'
