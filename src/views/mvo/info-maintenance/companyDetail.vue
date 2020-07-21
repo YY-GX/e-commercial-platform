@@ -110,6 +110,22 @@
         </div>
 
 
+        <!--   upload   -->
+        <div class="layout gutter--md fluid">
+          <div class="row">
+
+            <div class="flex lg12">
+              <va-file-upload
+                type="single"
+                dropzone
+                v-model="imgArr"
+              />
+            </div>
+
+          </div>
+        </div>
+
+
         <div class="layout gutter--md fluid">
           <div class="row">
 
@@ -126,6 +142,7 @@
           </div>
         </div>
 
+
       </slot>
     </va-modal>
 
@@ -134,7 +151,7 @@
 
 <script>
   import cubeItem from '../../../components/cubes/cubeItem'
-  import {addBrand, addCompany, getCompanyInfo, getBrandInfo} from '../../../api/mvo'
+  import {addBrand, addCompany, getCompanyInfo, getBrandInfo, uploadBrandImage} from '../../../api/mvo'
   import store from '../../../store/index';
 
   export default {
@@ -145,6 +162,10 @@
     store: store,
     data() {
       return {
+        imgArr: [],
+        imgForm: new FormData(),
+        imgUrl: '',
+
         activePage : 1,
         pageSize: 10,
         showAddBrand: false,
@@ -212,6 +233,59 @@
       },
     },
 
+    watch: {
+      imgArr : { //当storePicture数组变化（用户新上传时）
+        handler : function(val, oldVal){
+          console.log(val);
+          if(val.length === 0){ //无文件
+            return;
+          }
+          else{
+            var index = val.length - 1;//最新选择的文件
+            var fileName = val[index].name;
+            var fileSplit = fileName.split(".");
+            var fileType = fileSplit[fileSplit.length - 1];
+            fileType = fileType.toLowerCase();
+            if(fileType === "png"||fileType === "jpg" || fileType === "jpeg"){
+              console.log(fileName);
+              var formData = new FormData();
+              formData.append("file",val[index]);
+
+              this.imgForm = formData;
+
+              // formData.append("proId",this.strId);
+              // uploadImage(this,formData).then(
+              //   res => {
+              //     console.log(res);
+              //     if(res.status == 200){
+              //       this.storeImageSrc = res.data.data;
+              //     }
+              //     else{
+              //       console.log(res.message)
+              //     }
+              //   }
+              // )
+            }
+            else{
+              console.log(fileType);
+              this.showToast(
+                "file is not an image, please choose an image file",
+                {
+                  icon: 'fa-exclamation',
+                  position: 'top-right',
+                  duration: 2500,
+                  fullWidth: false,
+                }
+              );
+              this.imgArr = [];
+            }
+          }
+        },
+        deep : true
+      }
+
+    },
+
 
     methods: {
       click_add() {
@@ -226,8 +300,8 @@
           return;
         }
 
-        this.add_brand['imageUrl'] = 'https://picsum.photos/300/200/?image=1043'; // to be deleted...
-        this.brand_list.push(this.add_brand);
+        // this.add_brand['imageUrl'] = 'https://picsum.photos/300/200/?image=1043'; // to be deleted...
+        // this.brand_list.push(this.add_brand);
 
         this.add_brand.manId = this.$store.state.mvo.manId;
         console.log(this.add_brand);
@@ -235,6 +309,14 @@
         addBrand(this, this.add_brand)
           .then(res=>{
             console.log(res);
+            let brdId = res.data.data.brdId;
+            this.imgForm.append("brdId", brdId);
+            uploadBrandImage(this, this.imgForm)
+              .then(res => {
+                console.log(res);
+                this.add_brand['imageUrl'] = res.data.data;
+                this.brand_list.push(this.add_brand);
+              });
             this.showToast(
               "You have added one brand!",
               {

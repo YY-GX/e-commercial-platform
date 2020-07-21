@@ -146,10 +146,24 @@ export function getBrandInfo(obj, data) {
   })
 }
 
-// upload image
+// upload product image
 export function uploadImage(obj, data) {
+  obj.imageUpload.defaults.headers.Authorization = 'Bearer ' + localStorage.token;
   return obj.imageUpload.post(base_url + '/pro/mvo/product/image/upload', data);
 }
+
+// upload company image
+export function uploadCompanyImage(obj, data) {
+  obj.imageUpload.defaults.headers.Authorization = 'Bearer ' + localStorage.token;
+  return obj.imageUpload.post(base_url + '/info/company/image/upload', data);
+}
+
+// upload brand image
+export function uploadBrandImage(obj, data) {
+  obj.imageUpload.defaults.headers.Authorization = 'Bearer ' + localStorage.token;
+  return obj.imageUpload.post(base_url + '/info/brand/image/upload', data);
+}
+
 
 // Get orderList
 export function getOrderLs(obj, data) {

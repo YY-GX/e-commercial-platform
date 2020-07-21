@@ -478,7 +478,7 @@
       },
     },
     methods: {
-      addProduct() {
+      async addProduct() {
 
         this.brdIdErrors = this.brdId ? [] : ['Brand is required!'];
         this.manIdErrors = this.manId ? [] : ['Company is required!'];
@@ -509,12 +509,12 @@
           }
 
           for (let i = 0; i < parseInt(this.batchNum); i++) {
-            this.addProItem();
+            await this.addProItem();
           }
 
+        } else {
+          this.addProItem();
         }
-
-
       },
 
       addProItem() {
@@ -537,21 +537,15 @@
           categoryName: this.categoryName,
         };
 
-        console.log(postData);
-
-
-
         addProductApi(this, postData)
           .then((res)=>{
-            console.log(res);
-            let proId = res.data.proId;
-            console.log('proId: ' + proId)
+            let proId = res.data.data.proId;
             postData['proId'] = proId;
             this.$emit('addPro', postData);
             this.imgForm.append("proId", proId);
             uploadImage(this, this.imgForm)
               .then(res => {
-                  console.log('img upload success!')
+                  console.log('img upload success!');
                   console.log(res);
                   this.imgUrl = res.data.data.imageUrl;
                   // if(res.status == 200){

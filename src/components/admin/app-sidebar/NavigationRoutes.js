@@ -24,7 +24,7 @@ export const navigationRoutes = {
       name: 'product-main',
       displayName: 'Product Management',
       meta: {
-        iconClass: 'vuestic-iconset vuestic-iconset-dashboard',
+        iconClass: 'vuestic-iconset vuestic-iconset-components',
       },
     },
     {
@@ -32,7 +32,7 @@ export const navigationRoutes = {
       name: 'order-main',
       displayName: 'Order Management',
       meta: {
-        iconClass: 'vuestic-iconset vuestic-iconset-dashboard',
+        iconClass: 'vuestic-iconset vuestic-iconset-files',
       },
     },
     {
@@ -48,7 +48,7 @@ export const navigationRoutes = {
       name: 'BVO_shop',
       displayName: 'BVO_shop',
       meta: {
-        iconClass: 'vuestic-iconset vuestic-iconset-dashboard',
+        iconClass: 'fa fa-shopping-bag',
       }
     },
     {
@@ -56,7 +56,7 @@ export const navigationRoutes = {
       name: 'BVO_wishlist',
       displayName: 'BVO_wishlist',
       meta: {
-        iconClass: 'vuestic-iconset vuestic-iconset-dashboard',
+        iconClass: 'vuestic-iconset vuestic-iconset-extras',
       }
     },
     {
@@ -64,7 +64,7 @@ export const navigationRoutes = {
       name: 'BVO_order',
       displayName: 'BVO_order',
       meta: {
-        iconClass: 'vuestic-iconset vuestic-iconset-dashboard',
+        iconClass: 'vuestic-iconset vuestic-iconset-files',
       }
     },
     {
@@ -72,7 +72,7 @@ export const navigationRoutes = {
       name: 'audit-wallet',
       displayName: 'wallet audit',
       meta: {
-        iconClass: 'vuestic-iconset vuestic-iconset-dashboard',
+        iconClass: 'fa fa-money',
       }
     },
     {
@@ -80,7 +80,7 @@ export const navigationRoutes = {
       name: 'dictionary',
       displayName: 'data dictionary',
       meta: {
-        iconClass: 'vuestic-iconset vuestic-iconset-dashboard',
+        iconClass: 'vuestic-iconset vuestic-iconset-tables',
       }
     },
     {
@@ -88,7 +88,7 @@ export const navigationRoutes = {
       name: 'authority_manage',
       displayName: 'authority manage',
       meta: {
-        iconClass: 'vuestic-iconset vuestic-iconset-dashboard',
+        iconClass: 'vuestic-iconset vuestic-iconset-user',
       }
     },
     // {

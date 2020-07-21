@@ -81,7 +81,7 @@
 <style lang="scss">
   .auth-layout {
     min-height: 100vh;
-    background-image: linear-gradient(to right, #0e4ac4, #002c85);
+    background-image: linear-gradient(to right, #59a5d8, #133c55);
 
     &__card {
       width: 100%;

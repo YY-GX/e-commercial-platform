@@ -65,9 +65,11 @@
       :cancelText=" $t('modal.cancel') "
       @ok="confirmEdit"
     >
-      <div>
+      <div style="width: 300px;">
         <va-data-table
+          style="width: 300px;"
           :fields="littlefields"
+          :per-page="parseInt('3')"
           :data="permissions"
         >
           <template slot="modal" slot-scope="props">
@@ -270,9 +272,9 @@
           name: '__slot:role',
           title: 'role',
         }, {
-            name: '__slot:actions',
-            dataClass: 'text-right',
-          }
+          name: '__slot:actions',
+          dataClass: 'text-right',
+        }
         ]
       }
     },

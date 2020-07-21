@@ -1,12 +1,13 @@
 <template>
   <div class="auth-layout-wallet row align-content--center">
     <div @click="jump">
-      <img src="../../../assets/icons/sys.png" alt="to system" class="sys-icon">
+      <img src="../../../assets/icons/sys_v3.png" alt="to system" class="sys-icon">
     </div>
 
-    <div class="flex xs12 pa-3 flex-center">
-      <router-link class="py-5 flex-center" to="/">
-        <va-icon-logo></va-icon-logo>
+    <div class="flex xs12 pa-2 flex-center">
+      <router-link class="py-3 flex-center" to="/">
+<!--        <va-icon-logo></va-icon-logo>-->
+        <img src="../../../assets/icons/wallet_title.svg" alt="wallet title">
       </router-link>
     </div>
 
@@ -83,7 +84,7 @@ export default {
 <style lang="scss">
   .auth-layout-wallet {
     min-height: 100vh;
-    background-image: linear-gradient(to right, #ffba08, #faa307);
+    background-image: linear-gradient(to right, #eae2b7, #fcbf49);
 
     &__card {
       width: 100%;

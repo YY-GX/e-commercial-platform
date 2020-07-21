@@ -397,6 +397,7 @@
             description: product.description,
             stsCd: '0',
           };
+
           this.fieldData.push(basicInfo);
         },
 

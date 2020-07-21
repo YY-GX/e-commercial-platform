@@ -7,7 +7,7 @@
           stripe="info"
         >
           <template slot="header">
-            <va-icon name="fa fa-suitcase mr-3" color="success"/>
+            <va-icon name="fa fa-suitcase mr-3" color="info"/>
             <h4 class="mt-0 mb-0"> Company List </h4>
             <va-button @click="click_add" small outline style="margin-left: 80%; margin-top: 2%;"> Add Company </va-button>
           </template>
@@ -104,6 +104,21 @@
             </div>
           </div>
 
+          <!--   upload   -->
+          <div class="layout gutter--md fluid">
+            <div class="row">
+
+              <div class="flex lg12">
+                <va-file-upload
+                  type="single"
+                  dropzone
+                  v-model="imgArr"
+                />
+              </div>
+
+            </div>
+          </div>
+
           <!--   description   -->
           <div class="layout gutter--md fluid">
             <div class="row">
@@ -121,6 +136,8 @@
             </div>
           </div>
 
+
+
         </slot>
       </va-modal>
 
@@ -129,7 +146,7 @@
 
 <script>
   import cubeItem from '../../../components/cubes/cubeItem'
-  import {addCompany, getCompanyInfo} from '../../../api/mvo'
+  import {addCompany, getCompanyInfo, uploadCompanyImage} from '../../../api/mvo'
   import store from '../../../store/index';
 
     export default {
@@ -140,6 +157,10 @@
       store: store,
       data() {
         return {
+          imgArr: [],
+          imgForm: new FormData(),
+          imgUrl: '',
+
           activePage : 1,
           pageSize: 10,
           showAddCompany: false,
@@ -173,188 +194,7 @@
           gmcUrlErrors: [],
 
           company_list: null,
-          fake_data: [
-            {
-              manId: '1',
-              nameEn: 'Cyber',
-              nameCn: '赛博',
-              description: 'good company good company',
-              gmcType: '1',
-              gmcUrl: 'https://segmentfault.com/a',
-              imageUrl: 'https://picsum.photos/300/200/?image=1043',
-            },
-            {
-              manId: '2',
-              nameEn: 'Cyber',
-              nameCn: '赛博',
-              description: 'good company good company',
-              gmcType: '1',
-              gmcUrl: 'https://segmentfault.com/a',
-              imageUrl: 'https://picsum.photos/300/200/?image=1043',
-            },
-            {
-              manId: '3',
-              nameEn: 'Cyber',
-              nameCn: '赛博',
-              description: 'good company good company',
-              gmcType: '1',
-              gmcUrl: 'https://segmentfault.com/a',
-              imageUrl: 'https://picsum.photos/300/200/?image=1043',
-            },
-            {
-              manId: '4',
-              nameEn: 'Cyber',
-              nameCn: '赛博',
-              description: 'good company good company',
-              gmcType: '1',
-              gmcUrl: 'https://segmentfault.com/a',
-              imageUrl: 'https://picsum.photos/300/200/?image=1043',
-            },
-            {
-              manId: '5',
-              nameEn: 'Cyber',
-              nameCn: '赛博',
-              description: 'good company good company',
-              gmcType: '1',
-              gmcUrl: 'https://segmentfault.com/a',
-              imageUrl: 'https://picsum.photos/300/200/?image=1043',
-            },
-            {
-              manId: '6',
-              nameEn: 'Cyber',
-              nameCn: '赛博',
-              description: 'good company good company',
-              gmcType: '1',
-              gmcUrl: 'https://segmentfault.com/a',
-              imageUrl: 'https://picsum.photos/300/200/?image=1043',
-            },
-            {
-              manId: '7',
-              nameEn: 'Cyber',
-              nameCn: '赛博',
-              description: 'good company good company',
-              gmcType: '1',
-              gmcUrl: 'https://segmentfault.com/a',
-              imageUrl: 'https://picsum.photos/300/200/?image=1043',
-            },
-            {
-              manId: '8',
-              nameEn: 'Cyber',
-              nameCn: '赛博',
-              description: 'good company good company',
-              gmcType: '1',
-              gmcUrl: 'https://segmentfault.com/a',
-              imageUrl: 'https://picsum.photos/300/200/?image=1043',
-            },
-            {
-              manId: '9',
-              nameEn: 'Cyber',
-              nameCn: '赛博',
-              description: 'good company good company',
-              gmcType: '1',
-              gmcUrl: 'https://segmentfault.com/a',
-              imageUrl: 'https://picsum.photos/300/200/?image=1043',
-            },
-            {
-              manId: '10',
-              nameEn: 'Cyber',
-              nameCn: '赛博',
-              description: 'good company good company',
-              gmcType: '1',
-              gmcUrl: 'https://segmentfault.com/a',
-              imageUrl: 'https://picsum.photos/300/200/?image=1043',
-            },
-            {
-              manId: '1',
-              nameEn: 'Cyber',
-              nameCn: '赛博',
-              description: 'good company good company',
-              gmcType: '1',
-              gmcUrl: 'https://segmentfault.com/a',
-              imageUrl: 'https://picsum.photos/300/200/?image=1043',
-            },
-            {
-              manId: '2',
-              nameEn: 'Cyber',
-              nameCn: '赛博',
-              description: 'good company good company',
-              gmcType: '1',
-              gmcUrl: 'https://segmentfault.com/a',
-              imageUrl: 'https://picsum.photos/300/200/?image=1043',
-            },
-            {
-              manId: '3',
-              nameEn: 'Cyber',
-              nameCn: '赛博',
-              description: 'good company good company',
-              gmcType: '1',
-              gmcUrl: 'https://segmentfault.com/a',
-              imageUrl: 'https://picsum.photos/300/200/?image=1043',
-            },
-            {
-              manId: '4',
-              nameEn: 'Cyber',
-              nameCn: '赛博',
-              description: 'good company good company',
-              gmcType: '1',
-              gmcUrl: 'https://segmentfault.com/a',
-              imageUrl: 'https://picsum.photos/300/200/?image=1043',
-            },
-            {
-              manId: '5',
-              nameEn: 'Cyber',
-              nameCn: '赛博',
-              description: 'good company good company',
-              gmcType: '1',
-              gmcUrl: 'https://segmentfault.com/a',
-              imageUrl: 'https://picsum.photos/300/200/?image=1043',
-            },
-            {
-              manId: '6',
-              nameEn: 'Cyber',
-              nameCn: '赛博',
-              description: ' ',
-              gmcType: '1',
-              gmcUrl: 'https://segmentfault.com/a',
-              imageUrl: 'https://picsum.photos/300/200/?image=1043',
-            },
-            {
-              manId: '7',
-              nameEn: 'Cyber',
-              nameCn: '赛博',
-              description: 'good company good companygood company good company',
-              gmcType: '1',
-              gmcUrl: 'https://segmentfault.com/a',
-              imageUrl: 'https://picsum.photos/300/200/?image=1043',
-            },
-            {
-              manId: '8',
-              nameEn: 'Cyber',
-              nameCn: '赛博',
-              description: 'good company good company',
-              gmcType: '1',
-              gmcUrl: 'https://segmentfault.com/a',
-              imageUrl: 'https://picsum.photos/300/200/?image=1043',
-            },
-            {
-              manId: '9',
-              nameEn: 'Cyber',
-              nameCn: '赛博',
-              description: 'good company good company',
-              gmcType: '1',
-              gmcUrl: 'https://segmentfault.com/a',
-              imageUrl: 'https://picsum.photos/300/200/?image=1043',
-            },
-            {
-              manId: '10',
-              nameEn: 'Cyber',
-              nameCn: '赛博',
-              description: 'good company good company',
-              gmcType: '1',
-              gmcUrl: 'https://segmentfault.com/a',
-              imageUrl: 'https://picsum.photos/300/200/?image=1043',
-            }
-          ]
+          fake_data: []
         }
       },
 
@@ -366,6 +206,47 @@
                 !this.gmcTypeErrors.length &&
                 !this.gmcUrlErrors.length
         },
+      },
+
+
+      watch: {
+        imgArr : { //当storePicture数组变化（用户新上传时）
+          handler : function(val, oldVal){
+            console.log(val);
+            if(val.length === 0){ //无文件
+              return;
+            }
+            else{
+              var index = val.length - 1;//最新选择的文件
+              var fileName = val[index].name;
+              var fileSplit = fileName.split(".");
+              var fileType = fileSplit[fileSplit.length - 1];
+              fileType = fileType.toLowerCase();
+              if(fileType === "png"||fileType === "jpg" || fileType === "jpeg"){
+                console.log(fileName);
+                var formData = new FormData();
+                formData.append("file",val[index]);
+
+                this.imgForm = formData;
+              }
+              else{
+                console.log(fileType);
+                this.showToast(
+                  "file is not an image, please choose an image file",
+                  {
+                    icon: 'fa-exclamation',
+                    position: 'top-right',
+                    duration: 2500,
+                    fullWidth: false,
+                  }
+                );
+                this.imgArr = [];
+              }
+            }
+          },
+          deep : true
+        }
+
       },
 
       methods: {
@@ -390,12 +271,20 @@
           this.showAddCompany = false;
 
           // add to the current page
-          this.add_company['imageUrl'] ='https://picsum.photos/300/200/?image=1043'; // to be deleted...
-          this.company_list.push(this.add_company);
+          // this.add_company['imageUrl'] ='https://picsum.photos/300/200/?image=1043'; // to be deleted...
+          // this.company_list.push(this.add_company);
 
           addCompany(this, this.add_company)
             .then(res=>{
               console.log(res);
+              let manId = res.data.data.manId;
+              this.imgForm.append("manId", manId);
+              uploadCompanyImage(this, this.imgForm)
+                .then(res => {
+                  console.log(res);
+                  this.add_company['imageUrl'] = res.data.data;
+                  this.company_list.push(this.add_company);
+                })
             })
         }
       },

@@ -31,7 +31,7 @@
           />
         </div>
 
-        <div class="flex lg3">
+        <div class="flex lg4">
           <va-button style="margin-left: 80%; margin-top: 2%;" small outline @click.stop="add"> Add Item </va-button>
         </div>
 
