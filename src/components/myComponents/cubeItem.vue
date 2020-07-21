@@ -183,9 +183,24 @@
         } else if (this.type === 'brand') {
           this.$router.push("/info/branddetail")
         } else if (this.type === 'store') { // store
-          this.$store.commit("changeStoreID",this.id);//save the storeId
-          this.$store.commit("saveStoreInfo",this.wholeData); // save the store info because no api get info by id
-          this.$router.push("BVO_store") // YYGX: change the path by yourself. It jump to the store detail page.
+          var permission = this.$store.state.user.permissions;
+
+          for(var i=0;i<permission.length;i++){
+            if(Number(permission[i].permissionId) == 5){
+              this.$store.commit("changeStoreID",this.id);//save the storeId
+              this.$store.commit("saveStoreInfo",this.wholeData); // save the store info because no api get info by id
+              this.$router.push("BVO_store") // YYGX: change the path by yourself. It jump to the store detail page.
+              return;
+            }
+          }
+          this.showToast(
+            "sorry, you have no authority to visit",
+            {
+              icon: 'fa-exclamation',
+              position: 'top-right',
+              duration: 2500,
+              fullWidth: false,
+            });
         } else {
           console.log('>> Error: the prop of cube_id should be product, company, brand or store!')
         }

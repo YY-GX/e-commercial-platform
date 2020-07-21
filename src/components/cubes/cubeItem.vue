@@ -145,11 +145,41 @@
               this.product_detail = result.data;
             });
           } else if (this.type === 'company') {
-            this.$store.commit("changeCompanyID", this.cube_id);
-            this.$router.push({name: 'company-detail'})
+            var permission = this.$store.state.user.permissions;
+
+            for(var i=0;i<permission.length;i++){
+              if(Number(permission[i].permissionId) == 1){
+                this.$store.commit("changeCompanyID", this.cube_id);
+                this.$router.push({name: 'company-detail'})
+                return;
+              }
+            }
+            this.showToast(
+              "sorry, you have no authority to visit",
+              {
+                icon: 'fa-exclamation',
+                position: 'top-right',
+                duration: 2500,
+                fullWidth: false,
+              });
           } else if (this.type === 'brand') {
-            this.$store.commit("changeBrandID", this.cube_id);
-            this.$router.push({name: 'brand-detail'})
+            var permission = this.$store.state.user.permissions;
+
+            for(var i=0;i<permission.length;i++){
+              if(Number(permission[i].permissionId) == 2){
+                this.$store.commit("changeBrandID", this.cube_id);
+                this.$router.push({name: 'brand-detail'})
+                return;
+              }
+            }
+            this.showToast(
+              "sorry, you have no authority to visit",
+              {
+                icon: 'fa-exclamation',
+                position: 'top-right',
+                duration: 2500,
+                fullWidth: false,
+              });
           } else if (this.type === 'store') { // store
             this.$router.push({name: 'brand-detail'}) // YYGX: change the path by yourself. It jump to the store detail page.
           } else {

@@ -32,7 +32,7 @@
         </div>
 
         <div class="flex lg3">
-          <va-button style="margin-left: 80%; margin-top: 2%;" small outline @click.stop="showAdd=true"> Add Item </va-button>
+          <va-button style="margin-left: 80%; margin-top: 2%;" small outline @click.stop="add"> Add Item </va-button>
         </div>
 
       </div>
@@ -75,10 +75,10 @@
       @ok="confirmAdd"
     >
       <div>
-        <div><va-input label="codeType" v-model="my_codeType" :error="codeTypeIsWrong" error-messages="please enter codeType"></va-input></div>
-        <div><va-input label="description" v-model="my_description" :error="descriptionIsWrong" error-messages="please enter description"></va-input></div>
-        <div><va-input label="typeCd" v-model="my_typeCd" :error="typeCdIsWrong" error-messages="please enter Integer"></va-input></div>
-        <div><va-input label="codeVal" v-model="my_codeVal" :error="codeValIsWrong" error-messages="please enter codeVal"></va-input></div>
+        <div><va-input label="codeType" v-model="my_codeType" :error="codeTypeWrong" error-messages="please enter codeType"></va-input></div>
+        <div><va-input label="description" v-model="my_description" :error="descriptionWrong" error-messages="please enter description"></va-input></div>
+        <div><va-input label="typeCd" v-model="my_typeCd" :error="typeCdWrong" error-messages="please enter Integer"></va-input></div>
+        <div><va-input label="codeVal" v-model="my_codeVal" :error="codeValWrong" error-messages="please enter codeVal"></va-input></div>
       </div>
     </va-modal>
 
@@ -143,6 +143,10 @@
         my_description: "",
         my_typeCd: "",
         my_codeVal: "",
+        codeTypeWrong : false,
+        descriptionWrong: false,
+        typeCdWrong: false,
+        codeValWrong: false,
         showAdd : false,
         showUpdate : false,
         updateId : 0,
@@ -153,6 +157,9 @@
     methods: {
 
       confirmRemove(){
+        this.checkInput();
+        if(!this.formIsReady) return;
+
         var data = {"cdmId" : this.removeId}
         removeDictionary(this,data).then(res=>{
           console.log(res);
@@ -168,10 +175,33 @@
           })
         })
       },
+      checkInput (){
+        this.codeTypeWrong =false;
+        this.codeValWrong = false;
+        this.descriptionWrong = false;
+        this.typeCdWrong = false;
+        if(this.codeTypeIsWrong) this.codeTypeWrong = true;
+        if(this.codeValIsWrong) this.codeValWrong = true;
+        if(this.descriptionIsWrong) this.descriptionWrong = true;
+        if(this.typeCdIsWrong) this.typeCdWrong = true;
+      },
 
       remove(row){
         this.removeId = row.cdmId;
         this.showRemove = true;
+      },
+
+      add(row){
+        this.updateId = "";
+        this.my_codeType = "";
+        this.my_description = "";
+        this.my_typeCd = "";
+        this.my_codeVal = "";
+        this.codeTypeWrong =false;
+        this.codeValWrong = false;
+        this.descriptionWrong = false;
+        this.typeCdWrong = false;
+        this.showAdd = true;
       },
 
       update(row) {
@@ -180,6 +210,10 @@
         this.my_description = row.description;
         this.my_typeCd = row.typeCd;
         this.my_codeVal = row.codeVal;
+        this.codeTypeWrong =false;
+        this.codeValWrong = false;
+        this.descriptionWrong = false;
+        this.typeCdWrong = false;
         this.showUpdate = true;
       },
 
@@ -200,27 +234,27 @@
         }
       },
       confirmAdd(){
-        if(!(this.codeTypeIsWrong||this.descriptionIsWrong||this.typeCdIsWrong||this.codeValIsWrong)){
-          var data = {"codeType" : this.my_codeType, "description" : this.my_description,
-            "typeCd" : this.my_typeCd, "codeVal" : this.my_codeVal}
-          addDictionary(this,data).then(res=>{
-            console.log(res);
-            this.my_codeType = "";
-            this.my_description = "";
-            this.my_typeCd = "";
-            this.my_codeVal = "";
-            getDictionary(this).then(response=>{
-              console.log(response);
-              if (response.status == 200) {
-                this.fieldData = response.data.data;
-                this.searchTransaction();
-                console.log(this.fieldData);
-              } else {
-                console.log('Return 500!')
-              }
-            })
+        this.checkInput();
+        if(!this.formIsReady) return;
+        var data = {"codeType" : this.my_codeType, "description" : this.my_description,
+          "typeCd" : this.my_typeCd, "codeVal" : this.my_codeVal}
+        addDictionary(this,data).then(res=>{
+          console.log(res);
+          this.my_codeType = "";
+          this.my_description = "";
+          this.my_typeCd = "";
+          this.my_codeVal = "";
+          getDictionary(this).then(response=>{
+            console.log(response);
+            if (response.status == 200) {
+              this.fieldData = response.data.data;
+              this.searchTransaction();
+              console.log(this.fieldData);
+            } else {
+              console.log('Return 500!')
+            }
           })
-        }
+        })
       },
       confirmUpdate(){
         if(!(this.codeTypeIsWrong||this.descriptionIsWrong||this.typeCdIsWrong||this.codeValIsWrong)){
@@ -272,6 +306,16 @@
       }
     },
     computed: {
+
+      formIsReady() {
+        return !(
+          this.codeTypeIsWrong() ||
+          this.descriptionIsWrong() ||
+          this.typeCdIsWrong() ||
+          this.codeValIsWrong()
+        )
+      },
+
       removeMessage (){
         return "are you sure to remove this item?";
       },
